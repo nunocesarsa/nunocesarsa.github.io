@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Nuno César de Sá: remote sensing and AI for conservation. Selected work, case studies, research and contact.">
+<style>body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Nuno César de Sá</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one 1080px column; a two-column opener (who I am + a generated land-cover scene),
+   then stacked sections each with a mono label in a narrow left rail and content on the right. */
+:root{
+  --bg:#F7F3EA; --surface:#FFFDF8; --ink:#2A2118; --muted:#6E6253; --line:#E2D9C8;
+  --accent:#A85A12;
+  --teal:#A85A12;
+  --lc-water:#2F6F9F; --lc-wetland:#5FA8A0; --lc-grass:#CFC96E; --lc-wood:#2F6B4A; --lc-crop:#D99A4E;
+  --display:"Bricolage Grotesque","Trebuchet MS","Segoe UI",sans-serif;
+  --body:"IBM Plex Sans","Segoe UI",Helvetica,Arial,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+/* Single look by choice: the Savanna palette is shown in both light and dark viewers. */
+:root{color-scheme:light}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.6}
+.wrap{max-width:1080px;margin:0 auto;padding-inline:24px;padding-block:28px 72px;display:flex;flex-direction:column;gap:72px}
+a{color:var(--teal);text-underline-offset:3px}
+a:hover{color:var(--ink)}
+a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:2px}
+h1,h2,h3,p,ul,ol{margin:0}
+ul,ol{padding:0;list-style:none}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;line-height:1.1}
+.mono{font-family:var(--mono);font-size:.78rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+
+/* top bar */
+.top{display:flex;flex-wrap:wrap;gap:12px 28px;align-items:baseline;justify-content:space-between}
+.top nav{display:flex;flex-wrap:wrap;gap:6px 22px}
+.top nav a{font-family:var(--mono);font-size:.8rem;letter-spacing:.05em;text-transform:uppercase;text-decoration:none;color:var(--muted)}
+.top nav a:hover{color:var(--ink)}
+
+/* opener */
+.hero{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:48px;align-items:center}
+.hero-text{display:flex;flex-direction:column;gap:22px;min-width:0}
+.hero h1{font-size:clamp(2.6rem,6.2vw,4.6rem);font-weight:700;letter-spacing:-.025em}
+.hero h1 span{color:var(--accent)}
+.lede{font-size:1.2rem;line-height:1.5;max-width:34em}
+.links{display:flex;flex-wrap:wrap;gap:10px}
+.links a{font-family:var(--mono);font-size:.85rem;text-decoration:none;border:1px solid var(--line);background:var(--surface);color:var(--ink);padding:8px 14px;border-radius:999px}
+.links a:hover{border-color:var(--accent);color:var(--accent)}
+.scene{display:flex;flex-direction:column;gap:10px;min-width:0}
+.scene canvas{width:100%;aspect-ratio:5/4;display:block;border:1px solid var(--line);background:var(--surface)}
+.legend{display:flex;flex-wrap:wrap;gap:6px 14px}
+.legend li{display:flex;align-items:center;gap:6px;font-family:var(--mono);font-size:.72rem;color:var(--muted)}
+.legend i{width:10px;height:10px;display:inline-block}
+.scene figcaption{font-size:.82rem;color:var(--muted)}
+figure{margin:0}
+
+/* sections */
+section.row{display:grid;grid-template-columns:170px minmax(0,1fr);gap:32px;border-top:1px solid var(--line);padding-top:28px}
+section.row > .body{display:flex;flex-direction:column;gap:24px;min-width:0}
+section.row h2{font-size:1.9rem;font-weight:700;letter-spacing:-.015em}
+.prose{max-width:65ch;display:flex;flex-direction:column;gap:14px}
+
+/* facts */
+.facts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px}
+.facts div{display:flex;flex-direction:column;gap:4px;border-top:2px solid var(--ink);padding-top:10px}
+.facts b{font-family:var(--display);font-size:1.9rem;font-weight:700;line-height:1;font-variant-numeric:tabular-nums}
+.facts span{font-size:.88rem;color:var(--muted);line-height:1.4}
+
+/* work */
+.work{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.work article{background:var(--surface);border:1px solid var(--line);padding:20px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.work h3{font-size:1.2rem;font-weight:700}
+.work p{font-size:.97rem}
+.work .meta{display:flex;flex-wrap:wrap;gap:4px 12px}
+.work .result{font-weight:600;color:var(--teal)}
+.work .proto{align-self:flex-start;font-family:var(--mono);font-size:.72rem;letter-spacing:.05em;text-transform:uppercase;border:1px solid var(--accent);color:var(--accent);padding:3px 9px;border-radius:999px}
+.work .soon a{font-family:var(--body);font-size:.92rem;font-weight:600;line-height:1.9}
+.work .soon{margin-top:auto;padding-top:10px;border-top:1px dashed var(--line);font-family:var(--mono);font-size:.74rem;color:var(--muted)}
+
+/* case studies */
+.case{background:var(--surface);border:1px solid var(--line);padding:28px;display:flex;flex-direction:column;gap:22px;min-width:0}
+.case header{display:flex;flex-direction:column;gap:8px}
+.case h3{font-size:1.6rem;font-weight:700;letter-spacing:-.01em}
+.case .sub{color:var(--muted);max-width:62ch}
+.kf{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.kf div{border-top:2px solid var(--accent);padding-top:8px;display:flex;flex-direction:column;gap:2px}
+.kf b{font-family:var(--display);font-size:1.5rem;line-height:1.1;font-variant-numeric:tabular-nums}
+.kf span{font-size:.85rem;color:var(--muted);line-height:1.35}
+.steps{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px 32px}
+.steps div{display:flex;flex-direction:column;gap:6px;min-width:0}
+.steps h4{margin:0;font-family:var(--mono);font-size:.76rem;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--accent)}
+.steps p{font-size:.96rem}
+.fig{display:flex;flex-direction:column;gap:10px;margin:0}
+.fig figcaption{font-size:.84rem;color:var(--muted)}
+.range{display:grid;grid-template-columns:110px minmax(0,1fr);gap:10px 14px;align-items:center;font-size:.88rem}
+.range .track{position:relative;height:22px;background:var(--bg);border:1px solid var(--line)}
+.range .bar{position:absolute;top:-1px;bottom:-1px;min-width:6px}
+.range .bar.a{background:var(--accent)}
+.range .bar.c{background:var(--muted)}
+.range .axis{position:relative;height:18px;font-family:var(--mono);font-size:.72rem;color:var(--muted)}
+.range .axis span{position:absolute;transform:translateX(-50%)}
+.range .axis span:first-child{transform:none}
+.range .axis span:last-child{transform:translateX(-100%)}
+.tblwrap{overflow-x:auto}
+table.acc{border-collapse:collapse;font-size:.88rem;font-variant-numeric:tabular-nums;min-width:420px;width:100%}
+table.acc th,table.acc td{text-align:left;padding:6px 12px 6px 0;border-bottom:1px solid var(--line)}
+table.acc th{font-family:var(--mono);font-size:.72rem;font-weight:500;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+.case .foot{display:flex;flex-wrap:wrap;gap:8px 20px;font-size:.88rem;color:var(--muted);border-top:1px dashed var(--line);padding-top:14px}
+/* timeline */
+.time{display:flex;flex-direction:column;gap:26px}
+.time li{display:grid;grid-template-columns:120px minmax(0,1fr);gap:20px}
+.time .when{font-family:var(--mono);font-size:.85rem;color:var(--muted);font-variant-numeric:tabular-nums;padding-top:4px}
+.time h3{font-size:1.15rem;font-weight:700;line-height:1.3}
+.time .org{color:var(--muted);font-size:.95rem}
+.time p{max-width:65ch;font-size:.97rem;margin-top:6px}
+
+/* publications, lists */
+.pubs{display:flex;flex-direction:column;gap:18px;max-width:70ch}
+.pubs li{font-size:.97rem}
+.pubs em{font-style:normal;font-weight:600}
+.pubs .src{color:var(--muted)}
+.tags{display:flex;flex-direction:column;gap:16px}
+.tags > div{display:grid;grid-template-columns:170px minmax(0,1fr);gap:16px}
+.tags dt{font-weight:600;font-size:.95rem}
+.tags dd{margin:0;font-size:.95rem;color:var(--muted)}
+dl{margin:0}
+
+.proj{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:28px;border-top:1px solid var(--line);padding-top:22px}
+.proj-head{display:flex;flex-direction:column;gap:8px;min-width:0}
+.proj-head h3{font-size:1.25rem;font-weight:700;line-height:1.2}
+.proj-head p{font-size:.95rem;color:var(--muted)}
+.pubs em a{color:var(--ink);text-decoration-color:var(--line)}
+.pubs em a:hover{color:var(--accent)}
+.pubs .src{display:block;font-size:.88rem;margin-top:2px}
+/* contact */
+.contact{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.addr{font-family:var(--mono);font-size:1rem;user-select:all;overflow-wrap:anywhere}
+button.copy{font-family:var(--mono);font-size:.8rem;background:var(--ink);color:var(--bg);border:0;padding:8px 14px;border-radius:999px;cursor:pointer}
+button.copy:hover{background:var(--accent)}
+footer{font-size:.82rem;color:var(--muted);border-top:1px solid var(--line);padding-top:18px}
+
+@media (max-width:820px){
+  .wrap{padding-inline:18px;gap:56px}
+  .hero{grid-template-columns:minmax(0,1fr);gap:28px}
+  section.row{grid-template-columns:minmax(0,1fr);gap:12px}
+  .facts{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .work{grid-template-columns:minmax(0,1fr)}
+  .case{padding:20px}
+  .kf,.steps{grid-template-columns:minmax(0,1fr)}
+  .range{grid-template-columns:minmax(0,1fr);gap:4px}
+  .range .lab{margin-top:6px}
+  .proj{grid-template-columns:minmax(0,1fr);gap:14px}
+  .time li{grid-template-columns:minmax(0,1fr);gap:2px}
+  .tags > div{grid-template-columns:minmax(0,1fr);gap:2px}
+}
+</style>
+
+</head>
+<body>
+<div class="wrap">
+
+  <header class="top">
+    <span class="mono">Remote sensing · AI · Conservation</span>
+    <nav aria-label="Sections">
+      <a href="#about">About</a>
+      <a href="#work">Work</a>
+      <a href="#cases">Case studies</a>
+      <a href="#experience">Experience</a>
+      <a href="#research">Research</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <div class="hero">
+    <div class="hero-text">
+      <h1>Nuno César <span>de Sá</span></h1>
+      <p class="lede">I build Earth observation and AI tools that conservation teams can actually run in the field. Remote Sensing and AI Analyst at WWF Germany, working across the KAZA, Congo Basin and SOKNOT landscapes.</p>
+      <div class="links">
+        <a href="https://www.linkedin.com/in/nunocesardesa/">LinkedIn</a>
+        <a href="https://github.com/nunocesarsa">GitHub</a>
+        <a href="https://scholar.google.com/citations?user=Z1wqkxQAAAAJ">Google Scholar</a>
+        <a href="https://twitter.com/NunoCsardeS1">X / Twitter</a>
+        <a href="#contact">Email</a>
+      </div>
+    </div>
+    <figure class="scene">
+      <canvas id="lc" width="500" height="400" role="img" aria-label="Illustrative land-cover map with five classes"></canvas>
+      <ul class="legend">
+        <li><i style="background:var(--lc-water)"></i>Water</li>
+        <li><i style="background:var(--lc-wetland)"></i>Wetland</li>
+        <li><i style="background:var(--lc-grass)"></i>Grassland</li>
+        <li><i style="background:var(--lc-wood)"></i>Woodland</li>
+        <li><i style="background:var(--lc-crop)"></i>Cropland</li>
+      </ul>
+      <figcaption>An illustrative land-cover map, generated on this page. Classifying landscapes like this from satellite imagery is a core part of my work.</figcaption>
+    </figure>
+  </div>
+
+  <section class="row" id="about">
+    <span class="mono">About</span>
+    <div class="body">
+      <div class="prose">
+        <p>I work where satellite data, machine learning and conservation practice meet. At WWF Germany I scope, build, pilot and hand over geospatial and AI tools for teams working in protected areas across several countries, from land-cover mapping and biodiversity credit analytics to camera-trap computer vision.</p>
+        <p>My background is in research. I spent close to a decade on remote sensing and machine learning for ecology, first monitoring invasive plants in Portugal and then adapting AutoML methods to Earth observation at Leiden University. That mix shapes how I work today: rigorous methods, built together with the people who will use them.</p>
+      </div>
+      <div class="facts">
+        <div><b>10+</b><span>years in remote sensing and machine learning for ecology</span></div>
+        <div><b>3</b><span>conservation landscapes: KAZA, Congo Basin, SOKNOT</span></div>
+        <div><b>1,000+</b><span>farm-field records collected with communities in two months</span></div>
+        <div><b>8</b><span>peer-reviewed articles</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="row" id="work">
+    <span class="mono">Selected work</span>
+    <div class="body">
+      <h2>Tools built for the field</h2>
+      <div class="work">
+        <article>
+          <div class="meta"><span class="mono">2024 to present</span><span class="mono">With African Parks</span></div>
+          <h3>Verifiable Nature Units and ecological integrity</h3>
+          <p>An end-to-end software pipeline that automates the calculation of <a href="https://www.africanparks.org/verifiable-nature-unit-vnu">Verifiable Nature Units</a> for biodiversity credits. Built in components with clear scope and daily stand-ups to catch mismatches early.</p>
+          <p class="result">Pipeline complete; now being scaled to more protected areas.</p>
+          <span class="proto">Working prototype</span>
+          <p>The ecological integrity explorer is an interactive map on top of the pipeline's outputs. It shows how ecological integrity changed between 2020 and 2025 per grid cell, and what drives it: habitat intactness and an indicator species score.</p>
+          <p class="soon"><a href="ecological-integrity-explorer.html">Open the explorer prototype</a><br>A prototype example to show the approach, not a final result.</p>
+        </article>
+        <article>
+          <div class="meta"><span class="mono">KAZA TFCA</span><span class="mono">Google Earth Engine</span></div>
+          <h3>AutoML for land-cover classification</h3>
+          <p>An in-house AutoML system for land-cover mapping in the Kavango-Zambezi landscape, alongside biodiversity credit analytics and monitoring dashboards for the Congo Basin.</p>
+          <p class="result">Mean 10 to 27% improvement per class over default models (POPI metric).</p>
+          <p class="soon"><a href="https://ee-nunocesarsa-wwf.projects.earthengine.app/view/kaza-bgp-landcover">Open the land-cover map</a><br>Full results will follow once published.</p>
+        </article>
+        <article>
+          <div class="meta"><span class="mono">2024</span><span class="mono">Survey123</span></div>
+          <h3>Farm field survey</h3>
+          <p>A field data collection tool co-developed and deployed with local communities in KAZA to map farm locations, with field teams coordinated across the areas of interest.</p>
+          <p class="result">Over 1,000 farm-field records in two months.</p>
+          <p class="soon"><a href="https://panda.maps.arcgis.com/apps/mapviewer/index.html?webmap=f91624320fc44f76a0de5ce45934b89b">Open the survey monitoring map</a></p>
+        </article>
+        <article>
+          <div class="meta"><span class="mono">KAZA TFCA · Zambezi Region, Namibia</span><span class="mono">Multi-criteria analysis</span></div>
+          <h3>Water pan siting</h3>
+          <span class="proto">V02 prototype</span>
+          <p>A pipeline that identifies and ranks candidate sites for artificial water pans, balancing biophysical suitability, wildlife needs, cost and human-wildlife conflict risk. Around 29 variables are harmonised to a shared 100 m grid, normalised and combined into six category scores per 1 km² hexagon.</p>
+          <p class="result">Seven scenarios scored in parallel, so decision makers can see how the ranking shifts with what is prioritised.</p>
+          <p class="soon"><a href="water-pan-explorer.html">Open the interactive explorer</a><br><a href="water-pan-report.html">Read the method report</a></p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="row" id="cases">
+    <span class="mono">Case studies</span>
+    <div class="body">
+      <h2>Scientific work in detail</h2>
+
+      <article class="case" id="case-automl">
+        <header>
+          <span class="mono">Leiden University · Published 2022 · GIScience &amp; Remote Sensing</span>
+          <h3>AutoML for estimating grass height from Landsat</h3>
+          <p class="sub">Can automated machine learning replace the trial-and-error an expert goes through when building a remote sensing model, and does it produce a better one?</p>
+        </header>
+        <div class="kf">
+          <div><b>1.73 – 1.78 cm</b><span>test error of the AutoML models</span></div>
+          <div><b>1.84 – 2.81 cm</b><span>test error of the classic, expert-style models</span></div>
+          <div><b>2</b><span>AutoML systems compared: Auto-sklearn and AutoGluon</span></div>
+        </div>
+        <div class="steps">
+          <div><h4>The problem</h4><p>Grassland monitoring usually relies on a vegetation index such as NDVI and an empirical model trained on field data. Which bands, indices and model to use is typically settled by ad hoc experimentation, which does not guarantee the best possible model.</p></div>
+          <div><h4>The data</h4><p>Field measurements of grass height at a nature reserve, paired with Landsat ETM+ and OLI imagery.</p></div>
+          <div><h4>The approach</h4><p>We emulated the classic workflow exhaustively, testing every combination of spectral bands and vegetation indices with Bayesian optimisation for hyperparameter tuning. We then compared it against a naive use of two AutoML systems that select and tune the whole pipeline on their own.</p></div>
+          <div><h4>The result</h4><p>Both AutoML systems outperformed every classic configuration. In the classic models a vegetation index was always selected, but which one depended on the algorithm, which shows how fragile hand-picked choices are. The study covers a single site, so the numbers do not transfer directly to other areas.</p></div>
+        </div>
+        <figure class="fig">
+          <div class="range" role="img" aria-label="Test error ranges: AutoML 1.73 to 1.78 centimetres, classic approach 1.84 to 2.81 centimetres">
+            <span class="lab">AutoML</span><div class="track"><div class="bar a" style="left:15.33%;width:3.34%"></div></div>
+            <span class="lab">Classic</span><div class="track"><div class="bar c" style="left:22.67%;width:64.66%"></div></div>
+            <span></span><div class="axis"><span style="left:0">1.5 cm</span><span style="left:33.33%">2.0</span><span style="left:66.67%">2.5</span><span style="left:100%">3.0 cm</span></div>
+          </div>
+          <figcaption>Range of test error across model configurations. Lower is better.</figcaption>
+        </figure>
+        <div class="foot"><span>Tools: Python, Auto-sklearn, AutoGluon, Bayesian optimisation, Landsat ETM+/OLI</span><a href="https://doi.org/10.1080/15481603.2022.2152304">Read the paper</a></div>
+      </article>
+
+      <article class="case" id="case-uav">
+        <header>
+          <span class="mono">INVADER-IV, Coimbra · Published 2018 · Frontiers in Plant Science</span>
+          <h3>Mapping the flowering of an invasive tree with drones</h3>
+          <p class="sub">A biocontrol wasp was released in Portugal in 2015 to cut the flowering of <i>Acacia longifolia</i>. Could drone imagery track flowering over whole sites, where field counts are slow and cover only small plots?</p>
+        </header>
+        <div class="kf">
+          <div><b>7 sites</b><span>along about 80 km of the Portuguese coast, around 65 ha each</span></div>
+          <div><b>4 – 6 cm</b><span>image resolution from a fixed-wing UAV</span></div>
+          <div><b>&gt; 0.96</b><span>overall accuracy at every site</span></div>
+        </div>
+        <div class="steps">
+          <div><h4>The problem</h4><p>The gall wasp <i>Trichilogaster acaciaelongifoliae</i> is expected to reduce flowering and so stop the seed bank from renewing. Monitoring that effect in the field is time-consuming, expensive and limited to small areas.</p></div>
+          <div><h4>The data</h4><p>Flights over five sand dune sites and two pine forest sites in March and April 2015, with a senseFly eBee carrying RGB and colour-infrared cameras. On the ground, at least 60 one-metre quadrats per site with flower counts, and nine or more ground control points.</p></div>
+          <div><h4>The approach</h4><p>Structure-from-motion produced orthophotos and a canopy height model. A Random Forest classifier then mapped flower presence from five inputs: red, green, blue, near-infrared and canopy height, with 1,000 reference points per site split 70/30 for training and validation.</p></div>
+          <div><h4>The result</h4><p>Flowering was mapped reliably in every habitat, with the blue band the most informative input at all sites but one. Estimating the number of flowers from mapped flower area did not work (r² between 0.013 and 0.156), because the plant's form and flower distribution vary too much. Peak flowering and open dunes gave the best results; pine canopy hides the understory.</p></div>
+        </div>
+        <figure class="fig">
+          <div class="tblwrap">
+            <table class="acc">
+              <thead><tr><th>Site</th><th>Habitat</th><th>Overall accuracy</th><th>Cohen's kappa</th></tr></thead>
+              <tbody><tr><td>SD1</td><td>Sand dune</td><td>0.957</td><td>0.910</td></tr><tr><td>SD2</td><td>Sand dune</td><td>0.980</td><td>0.950</td></tr><tr><td>SD3</td><td>Sand dune</td><td>0.993</td><td>0.986</td></tr><tr><td>SD4</td><td>Sand dune</td><td>0.973</td><td>0.939</td></tr><tr><td>SD5</td><td>Sand dune</td><td>0.967</td><td>0.896</td></tr><tr><td>PF1</td><td>Pine forest</td><td>0.980</td><td>0.859</td></tr><tr><td>PF2</td><td>Pine forest</td><td>0.973</td><td>0.870</td></tr></tbody>
+            </table>
+          </div>
+          <figcaption>Classification accuracy of flower presence per site.</figcaption>
+        </figure>
+        <div class="foot"><span>Tools: senseFly eBee, Agisoft Photoscan, R (randomForest, raster), ArcGIS</span><a href="https://doi.org/10.3389/fpls.2018.00293">Read the paper (open access)</a></div>
+      </article>
+
+      <article class="case" id="case-citizen">
+        <header>
+          <span class="mono">INVADER-IV, Coimbra · Published 2019 · Biological Invasions</span>
+          <h3>Citizen science to guide invasive plant surveillance</h3>
+          <p class="sub">Researchers cannot survey every invasive plant everywhere. Can sightings reported by citizens improve distribution models and show where to look next?</p>
+        </header>
+        <div class="kf">
+          <div><b>3 species</b><span><i>Acacia dealbata</i>, <i>A. longifolia</i> and <i>A. melanoxylon</i> across Portugal</span></div>
+          <div><b>2,663</b><span>citizen records from the Invasoras.pt platform</span></div>
+          <div><b>4,630</b><span>records collected by researchers</span></div>
+        </div>
+        <div class="steps">
+          <div><h4>The problem</h4><p>Managing invasive plants depends on accurate and timely distribution data, which professionals alone cannot collect for all species and territories. Citizen science platforms could fill the gaps, if their data hold up in a model.</p></div>
+          <div><h4>The data</h4><p>Verified sightings from Invasoras.pt, the Portuguese citizen science platform for invasive plants, and occurrence data from researchers. From these we built three datasets per species: researchers only, citizens only, and both combined.</p></div>
+          <div><h4>The approach</h4><p>We modelled the potential distribution of each species with an ensemble of species distribution models (biomod2 in R), once per dataset. We then compared model accuracy, the environmental drivers each model selected and the predicted maps.</p></div>
+          <div><h4>The result</h4><p>All models reached very high accuracy, with the highest values from researcher data. Adding citizen data greatly increased the predicted distribution for every species. Ranking where the models agree but no records exist gave a map of surveillance priorities for citizens and researchers alike.</p></div>
+        </div>
+        <figure class="fig">
+          <div class="range" role="img" aria-label="Occurrence records: researchers 4,630, citizens 2,663">
+            <span class="lab">Researchers</span><div class="track"><div class="bar c" style="left:0;width:92.6%"></div></div>
+            <span class="lab">Citizens</span><div class="track"><div class="bar a" style="left:0;width:53.26%"></div></div>
+            <span></span><div class="axis"><span style="left:0">0</span><span style="left:40%">2,000</span><span style="left:80%">4,000</span><span style="left:100%">5,000 records</span></div>
+          </div>
+          <figcaption>Occurrence records behind the models, by source.</figcaption>
+        </figure>
+        <div class="foot"><span>Tools: R, biomod2 ensemble modelling, Invasoras.pt citizen data</span><a href="https://doi.org/10.1007/s10530-019-01962-6">Read the paper</a></div>
+      </article>
+    </div>
+  </section>
+
+  <section class="row" id="experience">
+    <span class="mono">Experience</span>
+    <div class="body">
+      <ol class="time">
+        <li>
+          <span class="when">2023 – now</span>
+          <div>
+            <h3>Remote Sensing and AI Analyst</h3>
+            <div class="org">WWF Germany</div>
+            <p>Coordinate and deliver applied AI and geospatial tools for conservation teams across multiple countries and protected areas, from concept through to field deployment. Also teach on the EAGLE MSc programme at the University of Würzburg.</p>
+          </div>
+        </li>
+        <li>
+          <span class="when">2022 – 2023</span>
+          <div>
+            <h3>Scientist</h3>
+            <div class="org"><a href="https://www.gfz-potsdam.de/staff/nuno.queiroz.mesquita.cesar.de.sa/sec14">GFZ Helmholtz-Zentrum Potsdam</a></div>
+            <p>Supported early-phase product design by systematically identifying users and stakeholders and collecting their product and data requirements.</p>
+          </div>
+        </li>
+        <li>
+          <span class="when">2017 – 2022</span>
+          <div>
+            <h3>PhD Researcher</h3>
+            <div class="org"><a href="https://www.universiteitleiden.nl/en/data-science-research-programme">Data Science Research Programme, Leiden University</a></div>
+            <p>Research on adapting AutoML methods to Earth observation, with a focus on radiative transfer model inversion for monitoring vegetation functional traits. Lectured an MSc course on species distribution modelling, delivered external training, and built an ArcGIS Pro toolbox for automated image classification as a consultancy.</p>
+          </div>
+        </li>
+        <li>
+          <span class="when">2016 – 2017</span>
+          <div>
+            <h3>Researcher, <a href="https://iia.pt/invader4/">INVADER-IV</a></h3>
+            <div class="org">Coimbra College of Agriculture &amp; Centre for Functional Ecology</div>
+            <p>Developed new approaches to monitoring invasive plants. Planned and coordinated multi-team field and UAV campaigns, and combined species distribution models with citizen data to improve invasive species monitoring in Portugal.</p>
+          </div>
+        </li>
+        <li>
+          <span class="when">2013 – 2016</span>
+          <div>
+            <h3>Researcher, <a href="https://app.dimensions.ai/details/grant/grant.3534787">INVADER-B</a></h3>
+            <div class="org">Coimbra College of Agriculture &amp; Centre for Functional Ecology</div>
+            <p>Developed remote sensing and machine learning methods for monitoring invasive plants from satellite platforms. Assisted in the introduction of a biocontrol agent, public outreach and citizen data campaigns.</p>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="row" id="research">
+    <span class="mono">Research</span>
+    <div class="body">
+      <h2>Research projects and publications</h2>
+      <p class="prose">Eight peer-reviewed articles across three lines of work. The full record, with citations, is on <a href="https://scholar.google.com/citations?user=Z1wqkxQAAAAJ">Google Scholar</a>.</p>
+
+      <div class="proj">
+        <div class="proj-head">
+          <span class="mono">2017 – 2022 · Leiden University</span>
+          <h3>AutoML and vegetation traits from satellite data</h3>
+          <p>Adapting automated machine learning to Earth observation: estimating vegetation properties from Landsat and Sentinel-2, and testing how robust radiative transfer model inversion is to noise.</p>
+        </div>
+        <ul class="pubs">
+          <li><em><a href="https://doi.org/10.1080/15481603.2022.2152304">AutoML for estimating grass height from ETM+/OLI data from field measurements at a nature reserve</a></em> <span class="src">César de Sá, N., Baratchi, M., Buitenhuis, V., Cornelissen, P., &amp; van Bodegom, P. M. (2022). GIScience &amp; Remote Sensing, 59(1), 2164–2183.</span></li>
+          <li><em><a href="https://doi.org/10.3390/rs13040648">Exploring the impact of noise on hybrid inversion of PROSAIL RTM on Sentinel-2 data</a></em> <span class="src">César de Sá, N., Baratchi, M., Hauser, L. T., &amp; van Bodegom, P. (2021). Remote Sensing, 13(4), 648.</span></li>
+          <li><em><a href="https://doi.org/10.1016/j.rse.2021.112684">Explaining discrepancies between spectral and in-situ plant diversity in multispectral satellite earth observation</a></em> <span class="src">Hauser, L. T., Timmermans, J., van der Windt, N., Sil, Â. F., César de Sá, N., Soudzilovskaia, N. A., &amp; van Bodegom, P. M. (2021). Remote Sensing of Environment.</span></li>
+        </ul>
+      </div>
+
+      <div class="proj">
+        <div class="proj-head">
+          <span class="mono">2013 – 2017 · INVADER-B and INVADER-IV, Coimbra</span>
+          <h3>Monitoring invasive Acacia in Portugal</h3>
+          <p>Satellite time series, UAV surveys, citizen science data and distribution models to track invasive trees and to support the biocontrol programme for <i>Acacia longifolia</i>.</p>
+        </div>
+        <ul class="pubs">
+          <li><em><a href="https://doi.org/10.3389/fevo.2020.576667">Can niche dynamics and distribution modeling predict the success of invasive species management using biocontrol? Insights from Acacia longifolia in Portugal</a></em> <span class="src">Dinis, M., Vicente, J. R., César de Sá, N., López-Núñez, F. A., Marchante, E., &amp; Marchante, H. (2020). Frontiers in Ecology and Evolution, 8.</span></li>
+          <li><em><a href="https://doi.org/10.1007/s10530-019-01962-6">Can citizen science data guide the surveillance of invasive plants? A model-based test with Acacia trees in Portugal</a></em> <span class="src">César de Sá, N., Marchante, H., Marchante, E., Cabral, J. A., Honrado, J. P., &amp; Vicente, J. R. (2019). Biological Invasions, 21(6), 2127–2141.</span></li>
+          <li><em><a href="https://doi.org/10.3389/fpls.2018.00293">Mapping the flowering of an invasive plant using unmanned aerial vehicles: is there potential for biocontrol monitoring?</a></em> <span class="src">de Sá, N. C., Castro, P., Carvalho, S., Marchante, E., López-Núñez, F. A., &amp; Marchante, H. (2018). Frontiers in Plant Science, 9.</span></li>
+          <li><em><a href="https://doi.org/10.1109/jstars.2017.2673761">Using Landsat time series to understand how management and disturbances influence the expansion of an invasive tree</a></em> <span class="src">César de Sá, N., Carvalho, S., Castro, P., Marchante, E., &amp; Marchante, H. (2017). IEEE Journal of Selected Topics in Applied Earth Observations and Remote Sensing.</span></li>
+        </ul>
+      </div>
+
+      <div class="proj">
+        <div class="proj-head">
+          <span class="mono">2026 · Geospatial community</span>
+          <h3>Open and FAIR geospatial data</h3>
+          <p>A community perspective on making geospatial data findable, accessible, interoperable and reusable across Europe.</p>
+        </div>
+        <ul class="pubs">
+          <li><em><a href="https://doi.org/10.1080/22797254.2026.2676254">Towards a FAIRer future: insights from Europe's geospatial community</a></em> <span class="src">Berger, K., Requena Suarez, D., Szantoi, Z., César de Sá, N., Fritz, S., Milenkovic, M., Maso, J., Heinrich, V., &amp; Herold, M. (2026). European Journal of Remote Sensing.</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="row" id="teaching">
+    <span class="mono">Teaching &amp; open material</span>
+    <div class="body">
+      <ul class="pubs">
+        <li><em><a href="https://github.com/nunocesarsa/SDM-course">Species distribution modelling course</a></em> <span class="src">Materials for the MSc course I lectured at Leiden University.</span></li>
+        <li><em><a href="https://github.com/nunocesarsa/SENSECO_School_2021">SENSECO School 2021</a></em> <span class="src">Training material from the SENSECO training school.</span></li>
+        <li><em>EAGLE MSc, University of Würzburg</em> <span class="src">Guest teaching on applied Earth observation.</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="row" id="skills">
+    <span class="mono">Skills &amp; education</span>
+    <div class="body">
+      <dl class="tags">
+        <div><dt>Domains</dt><dd>Earth observation, conservation, ecological modelling, invasive species mapping, UAV surveys, RTM inversion</dd></div>
+        <div><dt>Machine learning</dt><dd>Image classification, AutoML, computer vision, generative AI, Bayesian optimisation, species distribution modelling, deep learning</dd></div>
+        <div><dt>Engineering</dt><dd>Python, R, JavaScript (Google Earth Engine), SQL, Matlab, Git; scikit-learn, PyTorch, TensorFlow, Auto-sklearn; data integration and automation</dd></div>
+        <div><dt>Delivery</dt><dd>Iterative delivery, multi-stakeholder requirements, cross-organisation coordination, fieldwork logistics, funding proposals</dd></div>
+        <div><dt>Languages</dt><dd>Portuguese (native), English (fluent), Spanish (spoken), French (basic), German (very basic)</dd></div>
+        <div><dt>MSc, 2011 – 2013</dt><dd><a href="https://www.gem-msc.eu/">Geo-information Science and Earth Observation</a>, ITC Faculty (NL) and University of Warsaw (PL). Thesis on the <a href="https://www.researchgate.net/publication/348834307_Factors_influencing_on_variability_of_flight_trajectory_patterns_of_Short-toed_Snake_Eagle_Circaetus_Gallicus">flight trajectories of the Short-toed Snake Eagle</a>.</dd></div>
+        <div><dt>BSc, 2007 – 2011</dt><dd><a href="https://sigarra.up.pt/fcup/pt/cur_geral.cur_view?pv_curso_id=886">Engineering Sciences, Geographic Engineering</a>, Faculty of Sciences, University of Porto</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <section class="row" id="contact">
+    <span class="mono">Contact</span>
+    <div class="body">
+      <h2>Get in touch</h2>
+      <p class="prose">Open to conversations about conservation technology, Earth observation, applied AI, collaborations and speaking.</p>
+      <div class="contact">
+        <span class="addr" id="email">nuno.cesar.sa@gmail.com</span>
+        <button class="copy" id="copy-email" type="button">Copy email</button>
+      </div>
+      <div class="links">
+        <a href="https://www.linkedin.com/in/nunocesardesa/">LinkedIn</a>
+        <a href="https://github.com/nunocesarsa">GitHub</a>
+        <a href="https://scholar.google.com/citations?user=Z1wqkxQAAAAJ">Google Scholar</a>
+        <a href="https://twitter.com/NunoCsardeS1">X / Twitter</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>© 2026 Nuno César de Sá</footer>
+</div>
+
+<script>
+(function(){
+  // Illustrative land-cover raster: seeded value noise, thresholded into five classes.
+  var cv=document.getElementById('lc'), ctx=cv.getContext('2d');
+  var COLS=50, ROWS=40, seed=2013;
+  function rnd(x,y,s){var n=Math.sin(x*127.1+y*311.7+s*74.7)*43758.5453;return n-Math.floor(n)}
+  function smooth(t){return t*t*(3-2*t)}
+  function noise(x,y,s){
+    var xi=Math.floor(x), yi=Math.floor(y), xf=smooth(x-xi), yf=smooth(y-yi);
+    var a=rnd(xi,yi,s), b=rnd(xi+1,yi,s), c=rnd(xi,yi+1,s), d=rnd(xi+1,yi+1,s);
+    return a+(b-a)*xf+(c-a)*yf+(a-b-c+d)*xf*yf;
+  }
+  function fbm(x,y,s){return .6*noise(x,y,s)+.28*noise(x*2.1,y*2.1,s+7)+.12*noise(x*4.3,y*4.3,s+13)}
+  function draw(){
+    var cs=getComputedStyle(document.documentElement);
+    var col=['--lc-water','--lc-wetland','--lc-grass','--lc-wood','--lc-crop'].map(function(k){return cs.getPropertyValue(k).trim()});
+    var w=cv.width/COLS, h=cv.height/ROWS;
+    for(var j=0;j<ROWS;j++){for(var i=0;i<COLS;i++){
+      var e=fbm(i/11,j/11,seed), m=fbm(i/6+40,j/6+40,seed+3);
+      // a river channel winding across the scene
+      var river=Math.abs(j-(ROWS*.55+Math.sin(i/7)*6+Math.sin(i/2.7)*1.5));
+      var k;
+      if(river<1.3||e<.3) k=0;
+      else if(river<3.2||e<.38) k=1;
+      else if(m>.62&&e>.45&&e<.62) k=4;
+      else if(e>.56) k=3;
+      else k=2;
+      ctx.fillStyle=col[k];
+      ctx.fillRect(Math.floor(i*w),Math.floor(j*h),Math.ceil(w),Math.ceil(h));
+    }}
+  }
+  draw();
+  try{
+    matchMedia('(prefers-color-scheme: dark)').addEventListener('change',draw);
+    new MutationObserver(draw).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
+  }catch(e){}
+
+  var btn=document.getElementById('copy-email'), addr=document.getElementById('email');
+  btn.addEventListener('click',function(){
+    function select(){var r=document.createRange();r.selectNodeContents(addr);var s=getSelection();s.removeAllRanges();s.addRange(r);btn.textContent='Selected, press copy'}
+    try{navigator.clipboard.writeText(addr.textContent).then(function(){btn.textContent='Copied'},select)}catch(e){select()}
+    setTimeout(function(){btn.textContent='Copy email'},2500);
+  });
+})();
+</script>
+
+</body>
+</html>

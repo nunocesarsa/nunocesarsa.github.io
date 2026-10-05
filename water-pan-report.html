@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Water pan siting &mdash; V02 pipeline report</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root{
+    --ink:#1c1c1a; --muted:#6b6a63; --line:#dedcd3; --bg:#faf9f5; --panel:#ffffff;
+    --accent:#2f6e52; --accent-soft:#e4efe8;
+    --c-topo:#3b7fb0; --c-lsc:#6a9c46; --c-climate:#b0871e; --c-cost:#b06a3b; --c-wild:#2f6e52; --c-hwc:#8f4a8f;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0; font-family:-apple-system,Segoe UI,Helvetica,Arial,sans-serif; background:var(--bg); color:var(--ink); line-height:1.6;}
+  .wrap{max-width:880px; margin:0 auto; padding:40px 24px 80px;}
+  header{margin-bottom:36px;}
+  header h1{font-size:26px; font-weight:700; margin:0 0 6px;}
+  header p{color:var(--muted); font-size:14px; margin:0;}
+  h2{font-size:19px; font-weight:700; margin:40px 0 14px; padding-top:8px; border-top:1px solid var(--line);}
+  h3{font-size:15px; font-weight:700; margin:22px 0 8px;}
+  p{font-size:14.5px;}
+  .card{background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:18px 22px; margin-bottom:16px;}
+  table{width:100%; border-collapse:collapse; font-size:13px; margin:12px 0;}
+  th{background:#2E5339; color:#fff; text-align:left; padding:8px 10px; font-weight:600;}
+  td{padding:7px 10px; border-bottom:1px solid var(--line); vertical-align:top;}
+  tr:nth-child(even) td{background:#faf9f5;}
+  .cat-badge{display:inline-block; padding:2px 9px; border-radius:6px; font-size:11.5px; font-weight:600; color:#fff;}
+  .pipeline{display:flex; flex-direction:column; gap:0;}
+  .step{display:flex; gap:14px; align-items:flex-start; padding:10px 0;}
+  .step-num{width:26px; height:26px; border-radius:50%; background:var(--accent-soft); color:var(--accent); font-weight:700; font-size:12.5px; display:flex; align-items:center; justify-content:center; flex-shrink:0;}
+  .step-body h4{margin:0 0 3px; font-size:14px; font-weight:700;}
+  .step-body p{margin:0; font-size:13px; color:var(--muted);}
+  .step-connector{width:26px; display:flex; justify-content:center;}
+  .step-connector .line{width:1.5px; height:16px; background:var(--line);}
+  .catgrid{display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin:14px 0;}
+  .catbox{border-radius:10px; padding:12px 14px; border:1px solid var(--line);}
+  .catbox h4{margin:0 0 6px; font-size:13.5px; font-weight:700;}
+  .catbox ul{margin:0; padding-left:16px; font-size:12px; color:var(--ink);}
+  .catbox li{margin-bottom:3px;}
+  .note{background:#fbf3e3; border:1px solid #e8d9b5; border-radius:10px; padding:12px 16px; font-size:13px; margin:14px 0;}
+  .note strong{color:#8a6a1e;}
+  .scenario-matrix{font-size:12.5px;}
+  code{background:#f1efe8; padding:1px 6px; border-radius:4px; font-size:12.5px;}
+  footer{margin-top:50px; padding-top:16px; border-top:1px solid var(--line); font-size:12px; color:var(--muted);}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>Water pan siting &mdash; V02 pipeline report</h1>
+  <p>KAZA TFCA, Zambezi Region, Namibia &mdash; methodology summary, generated as a standalone reference alongside the interactive explorer.</p>
+</header>
+
+<div class="card">
+  <h3 style="margin-top:0;">Objective</h3>
+  <p style="margin-bottom:0;">Identify and rank candidate sites for artificial water pans, balancing biophysical suitability, wildlife needs, cost, and human-wildlife conflict risk. Rather than a single weighting, <strong>7 scenarios</strong> are scored in parallel &mdash; six that each emphasize one category, plus one balanced scenario &mdash; so a decision-maker can see how the ranking shifts depending on what's prioritized.</p>
+</div>
+
+<h2>Pipeline</h2>
+<div class="card">
+  <div class="pipeline">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body"><h4>Data collection</h4><p>~29 raw variables pulled from Earth Engine, CHELSA, HiHydroSoil, OpenStreetMap, TUM Global Building Atlas, and Naidoo et al. 2024 elephant GPS data &mdash; see the variable table below.</p></div>
+    </div>
+    <div class="step-connector"><div class="line"></div></div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body"><h4>Harmonization</h4><p>Every layer reprojected to EPSG:32734 and resampled onto one shared 100m grid &mdash; average downsample for finer sources, bilinear upsample for coarser ones.</p></div>
+    </div>
+    <div class="step-connector"><div class="line"></div></div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body"><h4>Normalization</h4><p>Each criterion percentile-clipped (2nd&ndash;98th) and rescaled 0&ndash;1, direction-corrected so higher always means more suitable. Sparse/mostly-zero layers fall back to true min/max to avoid a divide-by-zero collapse.</p></div>
+    </div>
+    <div class="step-connector"><div class="line"></div></div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-body"><h4>Category sub-indices</h4><p>Criteria combine into 6 category scores via a weighted average (weights sum to 1.0 per category, enforced by an assertion).</p></div>
+    </div>
+    <div class="step-connector"><div class="line"></div></div>
+    <div class="step">
+      <div class="step-num">5</div>
+      <div class="step-body"><h4>Scenario scoring</h4><p>6 category sub-indices combine into 7 scenario suitability scores &mdash; computed identically at both the 100m raster level and the 1km&sup2; hexagon level (see note below on why these differ slightly).</p></div>
+    </div>
+  </div>
+</div>
+
+<h2>Categories and criteria</h2>
+<div class="catgrid">
+  <div class="catbox" style="border-color:var(--c-topo); background:#3b7fb010;">
+    <h4 style="color:var(--c-topo);">Topography &amp; Soil</h4>
+    <ul><li>Ksat (subsoil)</li><li>RPI</li><li>Slope</li><li>Soil clay %</li></ul>
+  </div>
+  <div class="catbox" style="border-color:var(--c-lsc); background:#6a9c4610;">
+    <h4 style="color:var(--c-lsc);">Land Surface Condition</h4>
+    <ul><li>Fire frequency</li><li>LST</li><li>Bare Soil Index</li><li>Grass fraction</li><li>Bare fraction</li></ul>
+  </div>
+  <div class="catbox" style="border-color:var(--c-climate); background:#b0871e10;">
+    <h4 style="color:var(--c-climate);">Climate</h4>
+    <ul><li>bio17 (dry Q precip)</li><li>bio12 (annual precip)</li><li>bio5 (max temp)</li><li>bio1 (mean temp)</li><li>bio15 (seasonality)</li></ul>
+  </div>
+  <div class="catbox" style="border-color:var(--c-cost); background:#b06a3b10;">
+    <h4 style="color:var(--c-cost);">Cost</h4>
+    <ul><li>Dist. major roads</li><li>Dist. secondary roads</li><li>Woody cover</li><li>Dist. tracks</li></ul>
+  </div>
+  <div class="catbox" style="border-color:var(--c-wild); background:#2f6e5210;">
+    <h4 style="color:var(--c-wild);">Wildlife</h4>
+    <ul><li>Dist. ESW</li><li>Dist. known pans</li><li>Betweenness (log)</li><li>NDVI</li><li>PA connectivity (log)</li><li>Dist. permanent water</li></ul>
+  </div>
+  <div class="catbox" style="border-color:var(--c-hwc); background:#8f4a8f10;">
+    <h4 style="color:var(--c-hwc);">Infrastructure / HWC</h4>
+    <ul><li>Dist. buildings</li><li>Dist. major roads</li><li>Dist. agriculture</li><li>Building footprint</li><li>Crop fraction</li></ul>
+  </div>
+</div>
+
+<h2>Scenario system</h2>
+<p>Rather than hand-picked weights, scenarios are generated by a single rule: the emphasized category gets <strong>0.6</strong>, the other five split the remaining 0.4 equally (<strong>0.08</strong> each). The balanced scenario weights all six equally (<strong>1/6</strong>).</p>
+<table class="scenario-matrix">
+  <tr><th>Scenario</th><th>Topo &amp; Soil</th><th>Land Surf.</th><th>Climate</th><th>Cost</th><th>Wildlife</th><th>HWC</th></tr>
+  <tr><td>Topography &amp; Soil emphasis</td><td><strong>0.60</strong></td><td>0.08</td><td>0.08</td><td>0.08</td><td>0.08</td><td>0.08</td></tr>
+  <tr><td>Land Surface Condition emphasis</td><td>0.08</td><td><strong>0.60</strong></td><td>0.08</td><td>0.08</td><td>0.08</td><td>0.08</td></tr>
+  <tr><td>Climate emphasis</td><td>0.08</td><td>0.08</td><td><strong>0.60</strong></td><td>0.08</td><td>0.08</td><td>0.08</td></tr>
+  <tr><td>Cost emphasis</td><td>0.08</td><td>0.08</td><td>0.08</td><td><strong>0.60</strong></td><td>0.08</td><td>0.08</td></tr>
+  <tr><td>Wildlife emphasis</td><td>0.08</td><td>0.08</td><td>0.08</td><td>0.08</td><td><strong>0.60</strong></td><td>0.08</td></tr>
+  <tr><td>Infrastructure/HWC emphasis</td><td>0.08</td><td>0.08</td><td>0.08</td><td>0.08</td><td>0.08</td><td><strong>0.60</strong></td></tr>
+  <tr><td>Balanced</td><td>0.167</td><td>0.167</td><td>0.167</td><td>0.167</td><td>0.167</td><td>0.167</td></tr>
+</table>
+
+<div class="note"><strong>Raster vs. hex outputs differ slightly, by design.</strong> Both are computed with identical formulas and weights, but percentile normalization is calculated against a different underlying distribution in each case &mdash; the full population of 100m pixels for the raster version, versus the population of hexagon means for the hex version. Neither is "more correct"; the hex version is the primary decision-making output, the raster version is a finer-grained sanity check on whether hex-averaging smoothed over anything important.</div>
+
+<h2>Key methodological decisions</h2>
+<table>
+  <tr><th>Decision</th><th>Reasoning</th></tr>
+  <tr><td>CHELSA over WorldClim</td><td>1981&ndash;2010 baseline overlaps better in time with the rest of the pipeline's recent-year data than WorldClim's 1960&ndash;1991</td></tr>
+  <tr><td>MCD64A1 over Sentinel-2 NBR for fire</td><td>The original NBR-threshold method misread ordinary dry-season leaf drop as fire across most of the landscape</td></tr>
+  <tr><td>RPI computed from a 9&times;9 smoothed DEM, clamped &plusmn;1</td><td>Raw differentiation amplified SRTM sensor noise; validated afterward against JRC surface water (necessary-but-not-sufficient pattern confirmed)</td></tr>
+  <tr><td>Dist. ESW replaces 4 recurrence bands</td><td>Distance answers the actual siting question (connectivity to existing ephemeral water); a stepping-stone network for small, poorly-mobile fauna</td></tr>
+  <tr><td>Dist. permanent water: farther = better</td><td>Matches the project's core goal &mdash; bring water to areas where it isn't already, not site redundantly near existing sources</td></tr>
+  <tr><td>Micro-corridors dropped</td><td>Naturally sparse (&gt;2% of AOI exactly zero), causing percentile normalization to degenerate; unlikely to discriminate meaningfully between most hexagons here regardless</td></tr>
+</table>
+
+<h2>Known gaps</h2>
+<p>Not automatable, still requiring direct requests: conservancy zoning (IRDNC/NACSO), human-wildlife conflict incident records (MET Namibia/IRDNC), customary land use/grazing areas. NDVI's MODIS scale factor (&times;0.0001) needs re-verifying against the current file before treating its raw values as literal NDVI.</p>
+
+<footer>Generated as part of the V02 prototype pipeline. See the companion interactive explorer for hexagon-level detail and AI-generated site summaries.</footer>
+
+</div>
+</body>
+</html>
