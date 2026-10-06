@@ -245,6 +245,9 @@ footer{font-family:var(--mono);border-top:1px solid var(--ink)}
 .work article.split > .proto{justify-self:start}
 .work article.split > figure{grid-column:2;grid-row:1 / span 7;align-self:start}
 @media (max-width:820px){.work article.split{grid-template-columns:minmax(0,1fr)}.work article.split > figure{grid-column:1;grid-row:auto}}
+.snap a{display:block}
+.snaps.solo-wide .snap{width:100%}
+p.prose{display:block}
 </style>
 
 </head>
@@ -266,7 +269,7 @@ footer{font-family:var(--mono);border-top:1px solid var(--ink)}
   <div class="hero">
     <div class="hero-text">
       <h1>Nuno César <span>de Sá</span></h1>
-      <p class="lede"><strong class="punch">Building EO and AI tools that conservation teams can actually run in the field.</strong> Remote Sensing and AI Analyst at WWF Germany, working across the KAZA, Congo Basin and SOKNOT landscapes.</p>
+      <p class="lede"><strong class="punch">Turning Earth observation and artificial intelligence into tools conservation teams can use.</strong> Remote Sensing and AI Analyst at WWF Germany, working across the KAZA, Congo Basin and SOKNOT landscapes.</p>
       <div class="links">
         <a href="https://www.linkedin.com/in/nunocesardesa/">LinkedIn</a>
         <a href="https://github.com/nunocesarsa">GitHub</a>
@@ -308,21 +311,52 @@ footer{font-family:var(--mono);border-top:1px solid var(--ink)}
     <div class="body">
       <h2>Tools built for the field</h2>
       <div class="work">
-        <article>
+        <article class="wide">
           <div class="meta"><span class="mono">2024 to present</span><span class="mono">With African Parks</span></div>
           <h3>Verifiable Nature Units and ecological integrity</h3>
-          <p>An end-to-end software pipeline that automates the calculation of <a href="https://www.africanparks.org/verifiable-nature-unit-vnu">Verifiable Nature Units</a> for biodiversity credits. Built in components with clear scope and daily stand-ups to catch mismatches early.</p>
+          <div class="wide-text">
+            <p>An end-to-end software pipeline that automates the calculation of <a href="https://www.africanparks.org/verifiable-nature-unit-vnu">Verifiable Nature Units</a> for biodiversity credits. Built in components with clear scope and daily stand-ups to catch mismatches early.</p>
+            <p>The ecological integrity explorer is an interactive map on top of the pipeline's outputs. It shows how ecological integrity changed between 2020 and 2025 per grid cell, and what drives it: habitat intactness and an indicator species score.</p>
+          </div>
           <p class="result">Pipeline complete; now being scaled to more protected areas.</p>
           <span class="proto">Working prototype</span>
-          <p>The ecological integrity explorer is an interactive map on top of the pipeline's outputs. It shows how ecological integrity changed between 2020 and 2025 per grid cell, and what drives it: habitat intactness and an indicator species score.</p>
+          <div class="snaps">
+            <figure class="snap" style="flex:1.164 1 0">
+              <a href="ecological-integrity-change-map.png"><img src="ecological-integrity-change-map.png" width="676" height="581" alt="Hexagon map of change in ecological integrity from 2020 to 2025, mostly green with a small cluster of declining cells"></a>
+              <figcaption>Change in ecological integrity per cell, 2020 to 2025, as shown in the explorer prototype</figcaption>
+            </figure>
+            <figure class="snap" style="flex:2.415 1 0">
+              <a href="ecological-integrity-traceability.png"><img src="ecological-integrity-traceability.png" width="1007" height="417" alt="Three panels: a declining hexagon circled on the map, charts tracing habitat and species drivers, and an AI-written report for that cell"></a>
+              <figcaption>Beyond the public prototype: each change can be traced to its drivers, and an AI-written report summarises a cell. These parts are not shared publicly.</figcaption>
+            </figure>
+          </div>
           <p class="soon"><a href="ecological-integrity-explorer.html">Open the explorer prototype</a><br>A prototype example to show the approach, not a final result.</p>
         </article>
-        <article>
+        <article class="wide">
           <div class="meta"><span class="mono">KAZA TFCA</span><span class="mono">Google Earth Engine</span></div>
           <h3>AutoML for land-cover classification</h3>
-          <p>An in-house AutoML system for land-cover mapping in the Kavango-Zambezi landscape, alongside biodiversity credit analytics and monitoring dashboards for the Congo Basin.</p>
+          <div class="wide-text">
+            <p>An in-house AutoML system for land-cover mapping in the Kavango-Zambezi landscape, built on Google Earth Engine. It searches for the best model and settings automatically, and does not rely on default configurations.</p>
+            <p>It maps nine land-cover classes across six areas (Zambezi, Mafunta, Mulobesi, Sichifulo, Hwange and Binga) for 2020 and 2023, and reports how certain each pixel's classification is.</p>
+          </div>
           <p class="result">Mean 10 to 27% improvement per class over default models (POPI metric).</p>
-          <p class="soon"><a href="https://ee-nunocesarsa-wwf.projects.earthengine.app/view/kaza-bgp-landcover">Open the land-cover map</a><br>Full results will follow once published.</p>
+          <div class="snaps solo-wide">
+            <figure class="snap">
+              <a href="kaza-landcover-six-areas.jpg"><img src="kaza-landcover-six-areas.jpg" width="2400" height="1697" alt="Land-cover map of six areas in the KAZA landscape with nine classes"></a>
+              <figcaption>Land cover across the six mapped areas</figcaption>
+            </figure>
+          </div>
+          <div class="snaps">
+            <figure class="snap" style="flex:1.419 1 0">
+              <a href="kaza-landcover-binga-entropy.jpg"><img src="kaza-landcover-binga-entropy.jpg" width="2000" height="1410" alt="Two maps of Binga: land-cover classes on the left and Shannon entropy on the right"></a>
+              <figcaption>Binga: land cover (A) and classification uncertainty as Shannon entropy (B)</figcaption>
+            </figure>
+            <figure class="snap" style="flex:2.400 1 0">
+              <a href="kaza-landcover-cohen-kappa.png"><img src="kaza-landcover-cohen-kappa.png" width="2040" height="850" alt="Box plots of Cohen kappa for five models in six areas, for 2020 and 2023"></a>
+              <figcaption>Cohen's kappa by model for each area, 2020 and 2023. The optimised model is the right-most box in each panel.</figcaption>
+            </figure>
+          </div>
+          <p class="soon"><a href="https://ee-nunocesarsa-wwf.projects.earthengine.app/view/kaza-bgp-landcover">Open the land-cover map</a><br>Full results will follow once published. Select an image to see it full size.</p>
         </article>
         <article class="wide split">
           <div class="meta"><span class="mono">KAZA TFCA · Zambezi Region, Namibia</span><span class="mono">Multi-criteria analysis</span></div>
@@ -359,6 +393,29 @@ footer{font-family:var(--mono);border-top:1px solid var(--ink)}
             </figure>
           </div>
           <p class="soon"><a href="https://panda.maps.arcgis.com/apps/mapviewer/index.html?webmap=f91624320fc44f76a0de5ce45934b89b">Open the survey monitoring map</a></p>
+        </article>
+        <article class="wide">
+          <div class="meta"><span class="mono">Camera traps · Computer vision</span><span class="mono">Open source · MIT licence</span></div>
+          <h3>Camera trap distance estimator</h3>
+          <div class="wide-text">
+            <p>A small app that estimates how far an animal is from a camera trap. A depth model (Depth Anything) turns each image into a depth map, which is calibrated against a reference image of the same scene using points at known field distances.</p>
+            <p>In the animal image, one click on the subject lets the Segment Anything model outline it, and the app reports the calibrated distance within that outline together with an uncertainty estimate. It runs locally in the browser and can work offline once the models are downloaded.</p>
+          </div>
+          <div class="snaps">
+            <figure class="snap" style="flex:1.778 1 0">
+              <img src="camera-trap-depth-background.jpg" width="1280" height="720" alt="Depth map of an empty forest scene from a camera trap, in blue to red colours">
+              <figcaption>Depth map of the empty scene, used for calibration</figcaption>
+            </figure>
+            <figure class="snap" style="flex:1.778 1 0">
+              <img src="camera-trap-segmentation.jpg" width="1280" height="720" alt="Camera trap photo of a forest with a large animal outlined by a solid red mask">
+              <figcaption>One click outlines the animal</figcaption>
+            </figure>
+            <figure class="snap" style="flex:1.778 1 0">
+              <img src="camera-trap-depth-animal.jpg" width="1280" height="720" alt="Depth map of the same scene with the animal visible as a nearer blue shape">
+              <figcaption>Depth map with the animal, from which its distance is read</figcaption>
+            </figure>
+          </div>
+          <p class="soon"><a href="https://github.com/nunosa-wwf/CameraTrap_DistanceEstimator">View the code on GitHub</a></p>
         </article>
       </div>
     </div>
@@ -442,15 +499,6 @@ footer{font-family:var(--mono);border-top:1px solid var(--ink)}
             <figcaption>Drone orthophoto during flowering, near Quiaios, Portugal</figcaption>
           </figure>
         </div>
-        <figure class="fig">
-          <div class="tblwrap">
-            <table class="acc">
-              <thead><tr><th>Site</th><th>Habitat</th><th>Overall accuracy</th><th>Cohen's kappa</th></tr></thead>
-              <tbody><tr><td>SD1</td><td>Sand dune</td><td>0.957</td><td>0.910</td></tr><tr><td>SD2</td><td>Sand dune</td><td>0.980</td><td>0.950</td></tr><tr><td>SD3</td><td>Sand dune</td><td>0.993</td><td>0.986</td></tr><tr><td>SD4</td><td>Sand dune</td><td>0.973</td><td>0.939</td></tr><tr><td>SD5</td><td>Sand dune</td><td>0.967</td><td>0.896</td></tr><tr><td>PF1</td><td>Pine forest</td><td>0.980</td><td>0.859</td></tr><tr><td>PF2</td><td>Pine forest</td><td>0.973</td><td>0.870</td></tr></tbody>
-            </table>
-          </div>
-          <figcaption>Classification accuracy of flower presence per site.</figcaption>
-        </figure>
         <div class="foot"><span>Tools: senseFly eBee, Agisoft Photoscan, R (randomForest, raster), ArcGIS</span><a href="https://doi.org/10.3389/fpls.2018.00293">Read the paper (open access)</a></div>
       </article>
 
@@ -607,7 +655,7 @@ footer{font-family:var(--mono);border-top:1px solid var(--ink)}
       <dl class="tags">
         <div><dt>Domains</dt><dd>Earth observation, conservation, ecological modelling, invasive species mapping, UAV surveys, RTM inversion</dd></div>
         <div><dt>Machine learning</dt><dd>Image classification, AutoML, computer vision, generative AI, Bayesian optimisation, species distribution modelling, deep learning</dd></div>
-        <div><dt>Engineering</dt><dd>Python, R, JavaScript (Google Earth Engine), SQL, Matlab, Git; scikit-learn, PyTorch, TensorFlow, Auto-sklearn; data integration and automation</dd></div>
+        <div><dt>Engineering</dt><dd>Python, R, JavaScript (Google Earth Engine), SQL, MATLAB, Git; scikit-learn, PyTorch, TensorFlow, Auto-sklearn; data integration and automation</dd></div>
         <div><dt>Delivery</dt><dd>Iterative delivery, multi-stakeholder requirements, cross-organisation coordination, fieldwork logistics, funding proposals</dd></div>
         <div><dt>Languages</dt><dd>Portuguese (native), English (fluent), Spanish (spoken), French (basic), German (very basic)</dd></div>
         <div><dt>MSc, 2011 – 2013</dt><dd><a href="https://www.gem-msc.eu/">Geo-information Science and Earth Observation</a>, ITC Faculty (NL) and University of Warsaw (PL). Thesis on the <a href="https://www.researchgate.net/publication/348834307_Factors_influencing_on_variability_of_flight_trajectory_patterns_of_Short-toed_Snake_Eagle_Circaetus_Gallicus">flight trajectories of the Short-toed Snake Eagle</a>.</dd></div>
