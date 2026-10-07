@@ -248,6 +248,7 @@ footer{font-family:var(--mono);border-top:1px solid var(--ink)}
 .snap a{display:block}
 .snaps.solo-wide .snap{width:100%}
 p.prose{display:block}
+.facts b.words{font-size:1.7rem;line-height:1.15;padding-top:.35rem}
 </style>
 
 </head>
@@ -289,8 +290,8 @@ p.prose{display:block}
     <div class="body">
       <div class="about-grid">
       <div class="prose">
-        <p>I work where satellite data, machine learning and conservation practice meet. At WWF Germany I scope, build, pilot and hand over geospatial and AI tools for teams working in protected areas across several countries, from land-cover mapping and biodiversity credit analytics to camera-trap computer vision.</p>
-        <p>My background is in research. I spent close to a decade on remote sensing and machine learning for ecology, first monitoring invasive plants in Portugal and then adapting AutoML methods to Earth observation at Leiden University. That mix shapes how I work today: rigorous methods, built together with the people who will use them.</p>
+        <p>At WWF Germany I lead geospatial and AI projects from first idea to field deployment, from land-cover mapping and biodiversity credit analytics to camera-trap computer vision. I don't stop at a result. I build solutions that teams on the ground can use, build on and improve.</p>
+        <p>Behind that are more than 12 years in remote sensing and machine learning for ecology, from invasive plants in Portugal to AutoML at Leiden University, working from the field to the office in international teams.</p>
       </div>
       <figure class="snap">
         <img src="nuno-oostvaardersplassen.jpg" width="1000" height="750" alt="Nuno César de Sá smiling in a grassy wetland with reeds behind him">
@@ -298,10 +299,10 @@ p.prose{display:block}
       </figure>
       </div>
       <div class="facts">
-        <div><b>10+</b><span>years in remote sensing and machine learning for ecology</span></div>
-        <div><b>3</b><span>conservation landscapes: KAZA, Congo Basin, SOKNOT</span></div>
-        <div><b>1,000+</b><span>farm-field records collected with communities in two months</span></div>
+        <div><b>12+</b><span>years in remote sensing and machine learning for ecology</span></div>
+        <div><b>6</b><span>field-ready tools and prototypes shown on this page</span></div>
         <div><b>10</b><span>peer-reviewed articles</span></div>
+        <div><b class="words">Field to office</b><span>from Portugal, the Netherlands and Germany to Namibia, Zambia, Zimbabwe and the Congo Basin</span></div>
       </div>
     </div>
   </section>
@@ -315,8 +316,8 @@ p.prose{display:block}
           <div class="meta"><span class="mono">2024 to present</span><span class="mono">With African Parks</span></div>
           <h3>Verifiable Nature Units and ecological integrity</h3>
           <div class="wide-text">
-            <p>An end-to-end software pipeline that automates the calculation of <a href="https://www.africanparks.org/verifiable-nature-unit-vnu">Verifiable Nature Units</a> for biodiversity credits. Built in components with clear scope and daily stand-ups to catch mismatches early.</p>
-            <p>The ecological integrity explorer is an interactive map on top of the pipeline's outputs. It shows how ecological integrity changed between 2020 and 2025 per grid cell, and what drives it: habitat intactness and an indicator species score.</p>
+            <p>With African Parks, I co-developed an end-to-end software pipeline that automates the calculation of <a href="https://www.africanparks.org/verifiable-nature-unit-vnu">Verifiable Nature Units</a> for biodiversity credits. I ran the build in components with clear scope and daily stand-ups to catch mismatches early. Built in collaboration with Lutz Kleemann.</p>
+            <p>I also built the ecological integrity explorer, an interactive map on top of the pipeline's outputs. It shows how ecological integrity changed between 2020 and 2025 per grid cell, and what drives it: habitat intactness and an indicator species score.</p>
           </div>
           <p class="result">Pipeline complete; now being scaled to more protected areas.</p>
           <span class="proto">Working prototype</span>
@@ -336,7 +337,7 @@ p.prose{display:block}
           <div class="meta"><span class="mono">KAZA TFCA</span><span class="mono">Google Earth Engine</span></div>
           <h3>AutoML for land-cover classification</h3>
           <div class="wide-text">
-            <p>An in-house AutoML system for land-cover mapping in the Kavango-Zambezi landscape, built on Google Earth Engine. It searches for the best model and settings automatically, and does not rely on default configurations.</p>
+            <p>I developed an in-house AutoML system for land-cover mapping in the Kavango-Zambezi landscape, built on Google Earth Engine. It searches for the best model and settings automatically, and does not rely on default configurations.</p>
             <p>It maps nine land-cover classes across six areas (Zambezi, Mafunta, Mulobesi, Sichifulo, Hwange and Binga) for 2020 and 2023, and reports how certain each pixel's classification is.</p>
           </div>
           <p class="result">Mean 10 to 27% improvement per class over default models (POPI metric).</p>
@@ -362,7 +363,7 @@ p.prose{display:block}
           <div class="meta"><span class="mono">KAZA TFCA · Zambezi Region, Namibia</span><span class="mono">Multi-criteria analysis</span></div>
           <h3>Water pan siting</h3>
           <span class="proto">V02 prototype</span>
-          <p>A pipeline that identifies and ranks candidate sites for artificial water pans, balancing biophysical suitability, wildlife needs, cost and human-wildlife conflict risk. Around 29 variables are harmonised to a shared 100 m grid, normalised and combined into six category scores per 1 km² hexagon.</p>
+          <p>I built a pipeline that identifies and ranks candidate sites for artificial water pans, balancing biophysical suitability, wildlife needs, cost and human-wildlife conflict risk. Around 29 variables are harmonised to a shared 100 m grid, normalised and combined into six category scores per 1 km² hexagon.</p>
           <p class="result">Seven scenarios scored in parallel, so decision makers can see how the ranking shifts with what is prioritised.</p>
           <figure class="snap">
             <img src="water-pan-suitability-map.png" width="901" height="484" alt="Hexagon map of water pan suitability scores under the balanced scenario, from red for low to green for high">
@@ -374,8 +375,8 @@ p.prose{display:block}
           <div class="meta"><span class="mono">2024 · KAZA TFCA</span><span class="mono">Survey123 · With Digifarm</span></div>
           <h3>Farm field survey</h3>
           <div class="wide-text">
-            <p>A field data collection tool, co-developed and deployed with local communities in KAZA to map farm fields. It was built as part of the KAZA ARISE Bengo Global programme, which monitored how agroecology practices improve field sustainability, in cooperation with <a href="https://digifarm.io/">Digifarm</a>.</p>
-            <p>Part of the work was coordinating community training with a train-the-trainer approach: a first group learned the app and then trained others in their own areas. That is what made fast data collection possible.</p>
+            <p>I co-developed and deployed a field data collection tool with local communities in KAZA to map farm fields. It was built as part of the KAZA ARISE Bengo Global programme, which monitored how agroecology practices improve field sustainability, in cooperation with <a href="https://digifarm.io/">Digifarm</a>.</p>
+            <p>I coordinated the community training with a train-the-trainer approach: a first group learned the app and then trained others in their own areas. That is what made fast data collection possible.</p>
           </div>
           <p class="result">Over 1,000 farm-field records in two months.</p>
           <div class="snaps">
@@ -398,7 +399,7 @@ p.prose{display:block}
           <div class="meta"><span class="mono">Camera traps · Computer vision</span><span class="mono">Open source · MIT licence</span></div>
           <h3>Camera trap distance estimator</h3>
           <div class="wide-text">
-            <p>A small app that estimates how far an animal is from a camera trap. A depth model (Depth Anything) turns each image into a depth map, which is calibrated against a reference image of the same scene using points at known field distances.</p>
+            <p>I built a small app that estimates how far an animal is from a camera trap. A depth model (Depth Anything) turns each image into a depth map, which is calibrated against a reference image of the same scene using points at known field distances.</p>
             <p>In the animal image, one click on the subject lets the Segment Anything model outline it, and the app reports the calibrated distance within that outline together with an uncertainty estimate. It runs locally in the browser and can work offline once the models are downloaded.</p>
           </div>
           <div class="snaps">
@@ -416,6 +417,25 @@ p.prose{display:block}
             </figure>
           </div>
           <p class="soon"><a href="https://github.com/nunosa-wwf/CameraTrap_DistanceEstimator">View the code on GitHub</a></p>
+        </article>
+        <article class="wide">
+          <div class="meta"><span class="mono">Camera traps · Bioacoustics</span><span class="mono">Open source</span></div>
+          <h3>Camera trap audio labeller</h3>
+          <div class="wide-text">
+            <p>I built a desktop tool for labelling the sounds in camera trap videos. It helps teams on the ground extract valuable information from camera trap recordings, both to train future models and to add to the data that camera traps already provide. The tool plays the footage alongside a spectrogram of its audio, so a sound can be seen as well as heard.</p>
+            <p>Dragging across the spectrogram selects a moment, which can be described and exported as a short clip. Every clip is logged in a table with its start and end time, description and the video's date, time and coordinates when the camera recorded them.</p>
+          </div>
+          <div class="snaps">
+            <figure class="snap" style="flex:1.386 1 0">
+              <img src="audio-labeller-video.png" width="438" height="316" alt="Camera trap video frame of a forest floor with an animal at the right edge, with playback controls below">
+              <figcaption>The video player, here with a bushpig entering the frame</figcaption>
+            </figure>
+            <figure class="snap" style="flex:1.433 1 0">
+              <img src="audio-labeller-spectrogram.png" width="897" height="626" alt="Spectrogram of the video audio with a selected time range highlighted and a description field reading bushpig walking on dry forest leaves">
+              <figcaption>Selecting a sound on the spectrogram and describing it before export</figcaption>
+            </figure>
+          </div>
+          <p class="soon"><a href="https://github.com/nunosa-wwf/CameraTrap_AudioLabeller">View the code on GitHub</a></p>
         </article>
       </div>
     </div>
@@ -457,14 +477,6 @@ p.prose{display:block}
             <figcaption>From the paper: test error (MAE) of the classic approach by algorithm, for all models and the best 50, 25 and 10</figcaption>
           </figure>
         </div>
-        <figure class="fig">
-          <div class="range" role="img" aria-label="Test error ranges: AutoML 1.73 to 1.78 centimetres, classic approach 1.84 to 2.81 centimetres">
-            <span class="lab">AutoML</span><div class="track"><div class="bar a" style="left:15.33%;width:3.34%"></div></div>
-            <span class="lab">Classic</span><div class="track"><div class="bar c" style="left:22.67%;width:64.66%"></div></div>
-            <span></span><div class="axis"><span style="left:0">1.5 cm</span><span style="left:33.33%">2.0</span><span style="left:66.67%">2.5</span><span style="left:100%">3.0 cm</span></div>
-          </div>
-          <figcaption>Range of test error across model configurations. Lower is better.</figcaption>
-        </figure>
         <div class="foot"><span>Tools: Python, Auto-sklearn, AutoGluon, Bayesian optimisation, Landsat ETM+/OLI</span><a href="https://doi.org/10.1080/15481603.2022.2152304">Read the paper</a><a href="https://www.youtube.com/watch?v=-WZ4dl9N6bU">Watch the talk</a><a href="https://www.esa.int/Applications/Observing_the_Earth/Using_machine_learning_for_rewilding">ESA feature with video interview</a></div>
       </article>
 
@@ -519,14 +531,16 @@ p.prose{display:block}
           <div><h4>The approach</h4><p>We modelled the potential distribution of each species with an ensemble of species distribution models (biomod2 in R), once per dataset. We then compared model accuracy, the environmental drivers each model selected and the predicted maps.</p></div>
           <div><h4>The result</h4><p>All models reached very high accuracy, with the highest values from researcher data. Adding citizen data greatly increased the predicted distribution for every species. Ranking where the models agree but no records exist gave a map of surveillance priorities for citizens and researchers alike.</p></div>
         </div>
-        <figure class="fig">
-          <div class="range" role="img" aria-label="Occurrence records: researchers 4,630, citizens 2,663">
-            <span class="lab">Researchers</span><div class="track"><div class="bar c" style="left:0;width:92.6%"></div></div>
-            <span class="lab">Citizens</span><div class="track"><div class="bar a" style="left:0;width:53.26%"></div></div>
-            <span></span><div class="axis"><span style="left:0">0</span><span style="left:40%">2,000</span><span style="left:80%">4,000</span><span style="left:100%">5,000 records</span></div>
-          </div>
-          <figcaption>Occurrence records behind the models, by source.</figcaption>
-        </figure>
+        <div class="snaps">
+          <figure class="snap" style="flex:2.186 1 0">
+            <a href="citizen-science-acacia-dealbata-maps.png"><img src="citizen-science-acacia-dealbata-maps.png" width="553" height="253" alt="Four maps of Portugal for Acacia dealbata: predicted distribution from citizen, research and combined datasets, and surveillance priorities"></a>
+            <figcaption>From the paper, for <i>Acacia dealbata</i>: predicted probability of occurrence in browns from the citizen, research and combined datasets (a to c), and surveillance priorities (d), from white and yellow for low to red for high.</figcaption>
+          </figure>
+          <figure class="snap" style="flex:1.750 1 0">
+            <img src="acacia-three-species.jpg" width="686" height="392" alt="Grid of nine photos showing the flowers, seed pods and stands of three Acacia species">
+            <figcaption>The three species studied, one per row, showing flowers, seed pods and stands.</figcaption>
+          </figure>
+        </div>
         <div class="foot"><span>Tools: R, biomod2 ensemble modelling, Invasoras.pt citizen data</span><a href="https://doi.org/10.1007/s10530-019-01962-6">Read the paper</a></div>
       </article>
     </div>
@@ -653,10 +667,12 @@ p.prose{display:block}
     <span class="mono">Skills &amp; education</span>
     <div class="body">
       <dl class="tags">
-        <div><dt>Domains</dt><dd>Earth observation, conservation, ecological modelling, invasive species mapping, UAV surveys, RTM inversion</dd></div>
-        <div><dt>Machine learning</dt><dd>Image classification, AutoML, computer vision, generative AI, Bayesian optimisation, species distribution modelling, deep learning</dd></div>
-        <div><dt>Engineering</dt><dd>Python, R, JavaScript (Google Earth Engine), SQL, MATLAB, Git; scikit-learn, PyTorch, TensorFlow, Auto-sklearn; data integration and automation</dd></div>
-        <div><dt>Delivery</dt><dd>Iterative delivery, multi-stakeholder requirements, cross-organisation coordination, fieldwork logistics, funding proposals</dd></div>
+        <div><dt>Earth observation &amp; geospatial</dt><dd>Satellite image analysis (Landsat, Sentinel-2), land-cover classification, time series analysis, UAV surveys and photogrammetry, radiative transfer model inversion, multi-criteria suitability analysis, Google Earth Engine, ArcGIS Online, ArcGIS Pro and Survey123</dd></div>
+        <div><dt>Machine learning &amp; AI</dt><dd>AutoML, image classification, computer vision with foundation models (Segment Anything, Depth Anything), camera-trap models, species distribution modelling, Bayesian optimisation, uncertainty estimation, generative AI for reporting, deep learning</dd></div>
+        <div><dt>Engineering</dt><dd>Python, R, JavaScript (Google Earth Engine), SQL, MATLAB, Git; scikit-learn, PyTorch, TensorFlow, Auto-sklearn, AutoGluon, biomod2; data pipelines and integration, interactive web maps and dashboards, lightweight apps</dd></div>
+        <div><dt>Conservation &amp; ecology</dt><dd>Biodiversity credits and ecological integrity metrics, human-wildlife conflict data, invasive species monitoring, ecological modelling, field survey design</dd></div>
+        <div><dt>Delivery &amp; leadership</dt><dd>End-to-end project delivery, co-design with field teams, train-the-trainer capacity building, multi-stakeholder requirements, cross-organisation coordination, fieldwork logistics, funding proposals</dd></div>
+        <div><dt>Communication &amp; teaching</dt><dd>University teaching, training schools, conference talks, scientific writing, running a community of practice on AI</dd></div>
         <div><dt>Languages</dt><dd>Portuguese (native), English (fluent), Spanish (spoken), French (basic), German (very basic)</dd></div>
         <div><dt>MSc, 2011 – 2013</dt><dd><a href="https://www.gem-msc.eu/">Geo-information Science and Earth Observation</a>, ITC Faculty (NL) and University of Warsaw (PL). Thesis on the <a href="https://www.researchgate.net/publication/348834307_Factors_influencing_on_variability_of_flight_trajectory_patterns_of_Short-toed_Snake_Eagle_Circaetus_Gallicus">flight trajectories of the Short-toed Snake Eagle</a>.</dd></div>
         <div><dt>BSc, 2007 – 2011</dt><dd><a href="https://sigarra.up.pt/fcup/pt/cur_geral.cur_view?pv_curso_id=886">Engineering Sciences, Geographic Engineering</a>, Faculty of Sciences, University of Porto</dd></div>
