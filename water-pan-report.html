@@ -2,150 +2,152 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Water pan siting &mdash; V02 pipeline report</title>
+<title>Water pan suitability V03: inputs and method</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
   :root{
+    color-scheme: light;
     --ink:#1c1c1a; --muted:#6b6a63; --line:#dedcd3; --bg:#faf9f5; --panel:#ffffff;
-    --accent:#2f6e52; --accent-soft:#e4efe8;
-    --c-topo:#3b7fb0; --c-lsc:#6a9c46; --c-climate:#b0871e; --c-cost:#b06a3b; --c-wild:#2f6e52; --c-hwc:#8f4a8f;
+    --accent:#256abf; --soft:#f3f2ec; --track:#eeede8;
+    --g-soil:#eb6834; --g-wild:#1baf7a; --g-hwc:#4a3aa7;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      color-scheme: dark;
+      --ink:#f3f2ee; --muted:#b0aea4; --line:#3a3a36; --bg:#141413; --panel:#1e1e1c;
+      --accent:#6da7ec; --soft:#262623; --track:#2c2c29;
+      --g-soil:#d95926; --g-wild:#199e70; --g-hwc:#9085e9;
+    }
   }
   *{box-sizing:border-box;}
-  body{margin:0; font-family:-apple-system,Segoe UI,Helvetica,Arial,sans-serif; background:var(--bg); color:var(--ink); line-height:1.6;}
-  .wrap{max-width:880px; margin:0 auto; padding:40px 24px 80px;}
-  header{margin-bottom:36px;}
-  header h1{font-size:26px; font-weight:700; margin:0 0 6px;}
-  header p{color:var(--muted); font-size:14px; margin:0;}
-  h2{font-size:19px; font-weight:700; margin:40px 0 14px; padding-top:8px; border-top:1px solid var(--line);}
-  h3{font-size:15px; font-weight:700; margin:22px 0 8px;}
-  p{font-size:14.5px;}
-  .card{background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:18px 22px; margin-bottom:16px;}
-  table{width:100%; border-collapse:collapse; font-size:13px; margin:12px 0;}
-  th{background:#2E5339; color:#fff; text-align:left; padding:8px 10px; font-weight:600;}
-  td{padding:7px 10px; border-bottom:1px solid var(--line); vertical-align:top;}
-  tr:nth-child(even) td{background:#faf9f5;}
-  .cat-badge{display:inline-block; padding:2px 9px; border-radius:6px; font-size:11.5px; font-weight:600; color:#fff;}
-  .pipeline{display:flex; flex-direction:column; gap:0;}
-  .step{display:flex; gap:14px; align-items:flex-start; padding:10px 0;}
-  .step-num{width:26px; height:26px; border-radius:50%; background:var(--accent-soft); color:var(--accent); font-weight:700; font-size:12.5px; display:flex; align-items:center; justify-content:center; flex-shrink:0;}
-  .step-body h4{margin:0 0 3px; font-size:14px; font-weight:700;}
-  .step-body p{margin:0; font-size:13px; color:var(--muted);}
-  .step-connector{width:26px; display:flex; justify-content:center;}
-  .step-connector .line{width:1.5px; height:16px; background:var(--line);}
-  .catgrid{display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin:14px 0;}
-  .catbox{border-radius:10px; padding:12px 14px; border:1px solid var(--line);}
-  .catbox h4{margin:0 0 6px; font-size:13.5px; font-weight:700;}
-  .catbox ul{margin:0; padding-left:16px; font-size:12px; color:var(--ink);}
-  .catbox li{margin-bottom:3px;}
-  .note{background:#fbf3e3; border:1px solid #e8d9b5; border-radius:10px; padding:12px 16px; font-size:13px; margin:14px 0;}
-  .note strong{color:#8a6a1e;}
-  .scenario-matrix{font-size:12.5px;}
-  code{background:#f1efe8; padding:1px 6px; border-radius:4px; font-size:12.5px;}
-  footer{margin-top:50px; padding-top:16px; border-top:1px solid var(--line); font-size:12px; color:var(--muted);}
+  body{margin:0; background:var(--bg); color:var(--ink); font-family:-apple-system,Segoe UI,Helvetica,Arial,sans-serif; font-size:14.5px; line-height:1.55;}
+  main{max-width:1060px; margin:0 auto; padding:36px 22px 70px;}
+  h1{font-size:26px; line-height:1.2; margin:0 0 6px; font-weight:650; text-wrap:balance;}
+  .lede{color:var(--muted); margin:0 0 26px; max-width:68ch;}
+  h2{font-size:17px; margin:40px 0 6px; font-weight:650;}
+  h2 + p{margin-top:0;}
+  p{max-width:72ch;}
+  code{font-family:ui-monospace,Consolas,Menlo,monospace; font-size:12.5px; background:var(--soft); padding:1px 5px; border-radius:4px;}
+  .card{background:var(--panel); border:1px solid var(--line); border-radius:10px; margin:14px 0;}
+  .scroll{overflow-x:auto;}
+  table{border-collapse:collapse; width:100%; font-size:13px;}
+  th,td{text-align:left; vertical-align:top; padding:9px 12px; border-bottom:1px solid var(--line);}
+  tr:last-child > td{border-bottom:none;}
+  thead th{font-size:11.5px; font-weight:600; color:var(--muted); text-transform:uppercase; letter-spacing:.04em; white-space:nowrap;}
+  tr.grp th{background:var(--soft); font-size:13px; font-weight:650;}
+  .num{text-align:right; font-variant-numeric:tabular-nums; white-space:nowrap;}
+  thead th.num{text-align:right;}
+  .ind{padding-left:28px;}
+  .small{color:var(--muted); font-size:12.5px; margin-top:2px; max-width:44ch;}
+  .dot{width:9px; height:9px; border-radius:50%; display:inline-block; margin-right:7px;}
+  .w{display:flex; flex-direction:column; align-items:flex-end; gap:4px; min-width:64px;}
+  .w i{display:block; width:64px; height:6px; background:var(--track); border-radius:4px; overflow:hidden;}
+  .w i b{display:block; height:100%; border-radius:0 4px 4px 0;}
+  .steps{display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:12px; margin:14px 0;}
+  .step{background:var(--panel); border:1px solid var(--line); border-radius:10px; padding:12px 14px; font-size:13px;}
+  .step b{display:block; font-size:13.5px; margin-bottom:2px;}
+  .step span{display:block; color:var(--muted); font-size:11.5px; margin-bottom:6px; font-family:ui-monospace,Consolas,Menlo,monospace; overflow-wrap:anywhere;}
+  .note{border-left:3px solid var(--accent); background:var(--panel); border-radius:0 8px 8px 0; padding:10px 14px; margin:14px 0; max-width:76ch; font-size:13.5px;}
+  ul{max-width:72ch; padding-left:20px;}
+  li{margin-bottom:5px;}
+  footer{margin-top:44px; color:var(--muted); font-size:12.5px;}
+  @media (max-width:820px){ .steps{grid-template-columns:1fr 1fr;} }
+  @media (max-width:520px){ .steps{grid-template-columns:1fr;} h1{font-size:22px;} }
 </style>
 </head>
 <body>
-<div class="wrap">
+<main>
 
-<header>
-  <h1>Water pan siting &mdash; V02 pipeline report</h1>
-  <p>KAZA TFCA, Zambezi Region, Namibia &mdash; methodology summary, generated as a standalone reference alongside the interactive explorer.</p>
-</header>
+<h1>Water pan suitability V03: inputs and method</h1>
+<p class="lede">KAZA TFCA, Zambezi Region, Namibia. This page lists every input layer, how it is grouped and weighted, and the processing settings behind the V03 suitability scores shown in the explorer.</p>
 
-<div class="card">
-  <h3 style="margin-top:0;">Objective</h3>
-  <p style="margin-bottom:0;">Identify and rank candidate sites for artificial water pans, balancing biophysical suitability, wildlife needs, cost, and human-wildlife conflict risk. Rather than a single weighting, <strong>7 scenarios</strong> are scored in parallel &mdash; six that each emphasize one category, plus one balanced scenario &mdash; so a decision-maker can see how the ranking shifts depending on what's prioritized.</p>
+<h2>How the score is built</h2>
+<p>Fourteen layers are brought onto one 100 m grid, each rescaled to a 0&ndash;1 score where higher means more suitable, and combined in two steps: layers into three group scores, then groups into one suitability score per scenario. Results are produced as 100 m rasters and as averages per hexagon (about 1 km&sup2; each, 12,922 hexagons).</p>
+<div class="steps">
+  <div class="step"><b>1. Prepare</b><span>v03_prepare_data.R</span>Align every layer to the shared grid, clip to the study area, build the land productivity and ephemeral-water layers.</div>
+  <div class="step"><b>2. Rescale</b><span>v03_score.R</span>Clip each layer to its 2nd&ndash;98th percentile and stretch to 0&ndash;1; flip layers where lower is better.</div>
+  <div class="step"><b>3. Combine</b><span>v03_score.R</span>Weighted average within each group, then weighted average of the three groups per scenario.</div>
+  <div class="step"><b>4. Mask</b><span>v03_build_landcover_masks.R</span>Optionally keep only hexagons dominated by grass, bare ground or shrub.</div>
 </div>
 
-<h2>Pipeline</h2>
-<div class="card">
-  <div class="pipeline">
-    <div class="step">
-      <div class="step-num">1</div>
-      <div class="step-body"><h4>Data collection</h4><p>~29 raw variables pulled from Earth Engine, CHELSA, HiHydroSoil, OpenStreetMap, TUM Global Building Atlas, and Naidoo et al. 2024 elephant GPS data &mdash; see the variable table below.</p></div>
-    </div>
-    <div class="step-connector"><div class="line"></div></div>
-    <div class="step">
-      <div class="step-num">2</div>
-      <div class="step-body"><h4>Harmonization</h4><p>Every layer reprojected to EPSG:32734 and resampled onto one shared 100m grid &mdash; average downsample for finer sources, bilinear upsample for coarser ones.</p></div>
-    </div>
-    <div class="step-connector"><div class="line"></div></div>
-    <div class="step">
-      <div class="step-num">3</div>
-      <div class="step-body"><h4>Normalization</h4><p>Each criterion percentile-clipped (2nd&ndash;98th) and rescaled 0&ndash;1, direction-corrected so higher always means more suitable. Sparse/mostly-zero layers fall back to true min/max to avoid a divide-by-zero collapse.</p></div>
-    </div>
-    <div class="step-connector"><div class="line"></div></div>
-    <div class="step">
-      <div class="step-num">4</div>
-      <div class="step-body"><h4>Category sub-indices</h4><p>Criteria combine into 6 category scores via a weighted average (weights sum to 1.0 per category, enforced by an assertion).</p></div>
-    </div>
-    <div class="step-connector"><div class="line"></div></div>
-    <div class="step">
-      <div class="step-num">5</div>
-      <div class="step-body"><h4>Scenario scoring</h4><p>6 category sub-indices combine into 7 scenario suitability scores &mdash; computed identically at both the 100m raster level and the 1km&sup2; hexagon level (see note below on why these differ slightly).</p></div>
-    </div>
-  </div>
-</div>
-
-<h2>Categories and criteria</h2>
-<div class="catgrid">
-  <div class="catbox" style="border-color:var(--c-topo); background:#3b7fb010;">
-    <h4 style="color:var(--c-topo);">Topography &amp; Soil</h4>
-    <ul><li>Ksat (subsoil)</li><li>RPI</li><li>Slope</li><li>Soil clay %</li></ul>
-  </div>
-  <div class="catbox" style="border-color:var(--c-lsc); background:#6a9c4610;">
-    <h4 style="color:var(--c-lsc);">Land Surface Condition</h4>
-    <ul><li>Fire frequency</li><li>LST</li><li>Bare Soil Index</li><li>Grass fraction</li><li>Bare fraction</li></ul>
-  </div>
-  <div class="catbox" style="border-color:var(--c-climate); background:#b0871e10;">
-    <h4 style="color:var(--c-climate);">Climate</h4>
-    <ul><li>bio17 (dry Q precip)</li><li>bio12 (annual precip)</li><li>bio5 (max temp)</li><li>bio1 (mean temp)</li><li>bio15 (seasonality)</li></ul>
-  </div>
-  <div class="catbox" style="border-color:var(--c-cost); background:#b06a3b10;">
-    <h4 style="color:var(--c-cost);">Cost</h4>
-    <ul><li>Dist. major roads</li><li>Dist. secondary roads</li><li>Woody cover</li><li>Dist. tracks</li></ul>
-  </div>
-  <div class="catbox" style="border-color:var(--c-wild); background:#2f6e5210;">
-    <h4 style="color:var(--c-wild);">Wildlife</h4>
-    <ul><li>Dist. ESW</li><li>Dist. known pans</li><li>Betweenness (log)</li><li>NDVI</li><li>PA connectivity (log)</li><li>Dist. permanent water</li></ul>
-  </div>
-  <div class="catbox" style="border-color:var(--c-hwc); background:#8f4a8f10;">
-    <h4 style="color:var(--c-hwc);">Infrastructure / HWC</h4>
-    <ul><li>Dist. buildings</li><li>Dist. major roads</li><li>Dist. agriculture</li><li>Building footprint</li><li>Crop fraction</li></ul>
-  </div>
-</div>
-
-<h2>Scenario system</h2>
-<p>Rather than hand-picked weights, scenarios are generated by a single rule: the emphasized category gets <strong>0.6</strong>, the other five split the remaining 0.4 equally (<strong>0.08</strong> each). The balanced scenario weights all six equally (<strong>1/6</strong>).</p>
-<table class="scenario-matrix">
-  <tr><th>Scenario</th><th>Topo &amp; Soil</th><th>Land Surf.</th><th>Climate</th><th>Cost</th><th>Wildlife</th><th>HWC</th></tr>
-  <tr><td>Topography &amp; Soil emphasis</td><td><strong>0.60</strong></td><td>0.08</td><td>0.08</td><td>0.08</td><td>0.08</td><td>0.08</td></tr>
-  <tr><td>Land Surface Condition emphasis</td><td>0.08</td><td><strong>0.60</strong></td><td>0.08</td><td>0.08</td><td>0.08</td><td>0.08</td></tr>
-  <tr><td>Climate emphasis</td><td>0.08</td><td>0.08</td><td><strong>0.60</strong></td><td>0.08</td><td>0.08</td><td>0.08</td></tr>
-  <tr><td>Cost emphasis</td><td>0.08</td><td>0.08</td><td>0.08</td><td><strong>0.60</strong></td><td>0.08</td><td>0.08</td></tr>
-  <tr><td>Wildlife emphasis</td><td>0.08</td><td>0.08</td><td>0.08</td><td>0.08</td><td><strong>0.60</strong></td><td>0.08</td></tr>
-  <tr><td>Infrastructure/HWC emphasis</td><td>0.08</td><td>0.08</td><td>0.08</td><td>0.08</td><td>0.08</td><td><strong>0.60</strong></td></tr>
-  <tr><td>Balanced</td><td>0.167</td><td>0.167</td><td>0.167</td><td>0.167</td><td>0.167</td><td>0.167</td></tr>
-</table>
-
-<div class="note"><strong>Raster vs. hex outputs differ slightly, by design.</strong> Both are computed with identical formulas and weights, but percentile normalization is calculated against a different underlying distribution in each case &mdash; the full population of 100m pixels for the raster version, versus the population of hexagon means for the hex version. Neither is "more correct"; the hex version is the primary decision-making output, the raster version is a finer-grained sanity check on whether hex-averaging smoothed over anything important.</div>
-
-<h2>Key methodological decisions</h2>
+<h2>Groups, layers and weights</h2>
+<p>Weights add up to 1 within each group. "Direction" says which end of the raw value scores high.</p>
+<div class="card scroll">
 <table>
-  <tr><th>Decision</th><th>Reasoning</th></tr>
-  <tr><td>CHELSA over WorldClim</td><td>1981&ndash;2010 baseline overlaps better in time with the rest of the pipeline's recent-year data than WorldClim's 1960&ndash;1991</td></tr>
-  <tr><td>MCD64A1 over Sentinel-2 NBR for fire</td><td>The original NBR-threshold method misread ordinary dry-season leaf drop as fire across most of the landscape</td></tr>
-  <tr><td>RPI computed from a 9&times;9 smoothed DEM, clamped &plusmn;1</td><td>Raw differentiation amplified SRTM sensor noise; validated afterward against JRC surface water (necessary-but-not-sufficient pattern confirmed)</td></tr>
-  <tr><td>Dist. ESW replaces 4 recurrence bands</td><td>Distance answers the actual siting question (connectivity to existing ephemeral water); a stepping-stone network for small, poorly-mobile fauna</td></tr>
-  <tr><td>Dist. permanent water: farther = better</td><td>Matches the project's core goal &mdash; bring water to areas where it isn't already, not site redundantly near existing sources</td></tr>
-  <tr><td>Micro-corridors dropped</td><td>Naturally sparse (&gt;2% of AOI exactly zero), causing percentile normalization to degenerate; unlikely to discriminate meaningfully between most hexagons here regardless</td></tr>
+<thead><tr><th>Layer</th><th class="num">Weight in group</th><th>Direction</th><th>Source and native resolution</th><th>Preparation for V03</th></tr></thead>
+<tbody><tr class="grp"><th colspan="5"><span class="dot" style="background:var(--g-soil)"></span>Soil and degradation</th></tr><tr><td><b>Ksat (subsoil)</b><div class="small">Saturated hydraulic conductivity of the subsoil: how fast water drains through the layer a pan is dug into.</div></td><td class="num"><div class="w"><span>0.40</span><i><b style="width:100%;background:var(--g-soil)"></b></i></div></td><td>Lower is better</td><td>HiHydroSoil v2.0 (FutureWater), subsoil aggregate, 250 m</td><td>Bilinear resample to 100 m.</td></tr><tr><td><b>Degraded land (LPD)</b><div class="small">Share of the cell where land productivity is declining or showing early signs of decline (LPD classes 1 and 2).</div></td><td class="num"><div class="w"><span>0.40</span><i><b style="width:100%;background:var(--g-soil)"></b></i></div></td><td>Higher is better</td><td>Global Land Productivity Dynamics 2013&ndash;2022, 30 m (Scientific Data 2025, doi:10.1038/s41597-025-04883-3)</td><td>Six tiles mosaicked and cropped to the study area; share of 30 m pixels in classes 1&ndash;2 per 100 m cell.</td></tr><tr><td><b>Fire frequency</b><div class="small">Number of dry seasons in which the cell burned, 2017&ndash;2025.</div></td><td class="num"><div class="w"><span>0.20</span><i><b style="width:50%;background:var(--g-soil)"></b></i></div></td><td>Lower is better</td><td>MODIS MCD64A1 burned area, 500 m</td><td>Used as prepared in V02.</td></tr><tr class="grp"><th colspan="5"><span class="dot" style="background:var(--g-wild)"></span>Wildlife</th></tr><tr><td><b>Distance to ephemeral water</b><div class="small">Distance to the nearest cell where surface water was detected, wetlands and large water bodies included.</div></td><td class="num"><div class="w"><span>0.24</span><i><b style="width:60%;background:var(--g-wild)"></b></i></div></td><td>Lower is better</td><td>Sentinel-2 water recurrence 2020&ndash;2025 (Otsu/AWEI), 10 m, band <code>recurrence_all</code></td><td>Share of each 100 m cell with water detected; cells with at least 5% count as water; distance to nearest such cell.</td></tr><tr><td><b>Distance to known pans</b><div class="small">Distance to the nearest named or identified pan.</div></td><td class="num"><div class="w"><span>0.18</span><i><b style="width:45%;background:var(--g-wild)"></b></i></div></td><td>Lower is better</td><td>OSM water polygons, identified pans</td><td>Used as prepared in V02.</td></tr><tr><td><b>Betweenness (log)</b><div class="small">How much elephant movement funnels through the cell (graph betweenness summed over about 290 collared elephants).</div></td><td class="num"><div class="w"><span>0.16</span><i><b style="width:40%;background:var(--g-wild)"></b></i></div></td><td>Higher is better</td><td>Naidoo et al. 2024, 500 m</td><td>log(1 + x); bilinear to 100 m.</td></tr><tr><td><b>NDVI (dry season)</b><div class="small">Dry-season vegetation greenness, 2021&ndash;2025 median.</div></td><td class="num"><div class="w"><span>0.15</span><i><b style="width:37%;background:var(--g-wild)"></b></i></div></td><td>Higher is better</td><td>MODIS MOD13Q1, 250 m</td><td>Bilinear to 100 m; rescaled to &minus;1&hellip;1 if stored &times;10000.</td></tr><tr><td><b>PA connectivity (log)</b><div class="small">Strength of GPS-tracked elephant pathways between protected areas.</div></td><td class="num"><div class="w"><span>0.15</span><i><b style="width:37%;background:var(--g-wild)"></b></i></div></td><td>Higher is better</td><td>Naidoo et al. 2024, 500 m</td><td>log(1 + x); bilinear to 100 m.</td></tr><tr><td><b>Distance to permanent water</b><div class="small">Distance to the nearest river, large water body or wetland.</div></td><td class="num"><div class="w"><span>0.12</span><i><b style="width:30%;background:var(--g-wild)"></b></i></div></td><td>Higher is better</td><td>OSM waterways and large water polygons</td><td>Used as prepared in V02.</td></tr><tr class="grp"><th colspan="5"><span class="dot" style="background:var(--g-hwc)"></span>Infrastructure / HWC</th></tr><tr><td><b>Distance to buildings</b><div class="small">Distance to the nearest building footprint.</div></td><td class="num"><div class="w"><span>0.25</span><i><b style="width:62%;background:var(--g-hwc)"></b></i></div></td><td>Higher is better</td><td>TUM Global Building Atlas</td><td>Used as prepared in V02.</td></tr><tr><td><b>Distance to major roads</b><div class="small">Distance to the nearest trunk, primary or secondary road.</div></td><td class="num"><div class="w"><span>0.25</span><i><b style="width:62%;background:var(--g-hwc)"></b></i></div></td><td>Higher is better</td><td>OSM roads</td><td>Used as prepared in V02.</td></tr><tr><td><b>Distance to agriculture</b><div class="small">Distance to the nearest cell with more than 30% crop cover.</div></td><td class="num"><div class="w"><span>0.20</span><i><b style="width:50%;background:var(--g-hwc)"></b></i></div></td><td>Higher is better</td><td>9-class land cover 2023</td><td>Used as prepared in V02; re-aligned to the grid if needed.</td></tr><tr><td><b>Building footprint</b><div class="small">Share of the cell covered by buildings.</div></td><td class="num"><div class="w"><span>0.15</span><i><b style="width:37%;background:var(--g-hwc)"></b></i></div></td><td>Lower is better</td><td>TUM Global Building Atlas</td><td>Used as prepared in V02.</td></tr><tr><td><b>Crop cover</b><div class="small">Share of the cell classified as cropland.</div></td><td class="num"><div class="w"><span>0.15</span><i><b style="width:37%;background:var(--g-hwc)"></b></i></div></td><td>Lower is better</td><td>9-class land cover 2023</td><td>Used as prepared in V02; re-aligned to the grid if needed.</td></tr></tbody>
 </table>
-
-<h2>Known gaps</h2>
-<p>Not automatable, still requiring direct requests: conservancy zoning (IRDNC/NACSO), human-wildlife conflict incident records (MET Namibia/IRDNC), customary land use/grazing areas. NDVI's MODIS scale factor (&times;0.0001) needs re-verifying against the current file before treating its raw values as literal NDVI.</p>
-
-<footer>Generated as part of the V02 prototype pipeline. See the companion interactive explorer for hexagon-level detail and AI-generated site summaries.</footer>
-
 </div>
+<div class="note">Degraded land scores <b>higher</b>: the model steers new pans toward land that is already degraded. Fire scores the other way (fewer burned seasons is better). The soil and degradation weights (0.40 / 0.40 / 0.20) are new in V03; the wildlife and HWC weights are carried over from V02.</div>
+
+<h2>Scenarios</h2>
+<p>A scenario is a set of group weights. The balanced scenario treats the three groups equally; each emphasis scenario gives one group 0.6 and the other two 0.2.</p>
+<div class="card scroll">
+<table>
+<thead><tr><th>Scenario</th><th class="num">Soil and degradation</th><th class="num">Wildlife</th><th class="num">Infrastructure / HWC</th></tr></thead>
+<tbody><tr><td><b>Balanced</b></td><td class="num">0.33</td><td class="num">0.33</td><td class="num">0.33</td></tr><tr><td><b>Soil and degradation emphasis</b></td><td class="num">0.60</td><td class="num">0.20</td><td class="num">0.20</td></tr><tr><td><b>Wildlife emphasis</b></td><td class="num">0.20</td><td class="num">0.60</td><td class="num">0.20</td></tr><tr><td><b>Infrastructure / HWC emphasis</b></td><td class="num">0.20</td><td class="num">0.20</td><td class="num">0.60</td></tr></tbody>
+</table>
+</div>
+
+<h2>What each layer contributes to the final score</h2>
+<p>Group weight multiplied by the layer's weight in its group. Each column adds up to 100%.</p>
+<div class="card scroll">
+<table>
+<thead><tr><th>Layer</th><th class="num">Balanced</th><th class="num">Soil and degradation emphasis</th><th class="num">Wildlife emphasis</th><th class="num">Infrastructure / HWC emphasis</th></tr></thead>
+<tbody><tr class="grp"><th><span class="dot" style="background:var(--g-soil)"></span>Soil and degradation</th><th class="num">33.3%</th><th class="num">60.0%</th><th class="num">20.0%</th><th class="num">20.0%</th></tr><tr><td class="ind">Ksat (subsoil)</td><td class="num">13.3%</td><td class="num">24.0%</td><td class="num">8.0%</td><td class="num">8.0%</td></tr><tr><td class="ind">Degraded land (LPD)</td><td class="num">13.3%</td><td class="num">24.0%</td><td class="num">8.0%</td><td class="num">8.0%</td></tr><tr><td class="ind">Fire frequency</td><td class="num">6.7%</td><td class="num">12.0%</td><td class="num">4.0%</td><td class="num">4.0%</td></tr><tr class="grp"><th><span class="dot" style="background:var(--g-wild)"></span>Wildlife</th><th class="num">33.3%</th><th class="num">20.0%</th><th class="num">60.0%</th><th class="num">20.0%</th></tr><tr><td class="ind">Distance to ephemeral water</td><td class="num">8.0%</td><td class="num">4.8%</td><td class="num">14.4%</td><td class="num">4.8%</td></tr><tr><td class="ind">Distance to known pans</td><td class="num">6.0%</td><td class="num">3.6%</td><td class="num">10.8%</td><td class="num">3.6%</td></tr><tr><td class="ind">Betweenness (log)</td><td class="num">5.3%</td><td class="num">3.2%</td><td class="num">9.6%</td><td class="num">3.2%</td></tr><tr><td class="ind">NDVI (dry season)</td><td class="num">5.0%</td><td class="num">3.0%</td><td class="num">9.0%</td><td class="num">3.0%</td></tr><tr><td class="ind">PA connectivity (log)</td><td class="num">5.0%</td><td class="num">3.0%</td><td class="num">9.0%</td><td class="num">3.0%</td></tr><tr><td class="ind">Distance to permanent water</td><td class="num">4.0%</td><td class="num">2.4%</td><td class="num">7.2%</td><td class="num">2.4%</td></tr><tr class="grp"><th><span class="dot" style="background:var(--g-hwc)"></span>Infrastructure / HWC</th><th class="num">33.3%</th><th class="num">20.0%</th><th class="num">20.0%</th><th class="num">60.0%</th></tr><tr><td class="ind">Distance to buildings</td><td class="num">8.3%</td><td class="num">5.0%</td><td class="num">5.0%</td><td class="num">15.0%</td></tr><tr><td class="ind">Distance to major roads</td><td class="num">8.3%</td><td class="num">5.0%</td><td class="num">5.0%</td><td class="num">15.0%</td></tr><tr><td class="ind">Distance to agriculture</td><td class="num">6.7%</td><td class="num">4.0%</td><td class="num">4.0%</td><td class="num">12.0%</td></tr><tr><td class="ind">Building footprint</td><td class="num">5.0%</td><td class="num">3.0%</td><td class="num">3.0%</td><td class="num">9.0%</td></tr><tr><td class="ind">Crop cover</td><td class="num">5.0%</td><td class="num">3.0%</td><td class="num">3.0%</td><td class="num">9.0%</td></tr></tbody>
+</table>
+</div>
+
+<h2>Processing settings</h2>
+<div class="card scroll">
+<table>
+<thead><tr><th>Setting</th><th>Value</th><th>What it does</th></tr></thead>
+<tbody>
+<tr class="grp"><th colspan="3">Grid and alignment</th></tr>
+<tr><td>Working grid</td><td>100 m, UTM 34S (EPSG:32734)</td><td>Every layer is forced onto the same cells as the reference elevation grid, then clipped to the study-area outline.</td></tr>
+<tr><td>Re-alignment</td><td>Only when a layer is off the grid</td><td>Bilinear for continuous layers; nearest neighbour for fractions and counts (crop cover, building footprint, fire frequency).</td></tr>
+<tr class="grp"><th colspan="3">Land productivity</th></tr>
+<tr><td><code>lpd_degraded_classes</code></td><td>1 and 2</td><td>Classes counted as degraded: 1 declining, 2 early signs of decline. Class 3 (stable but stressed), 4 and 5 are not.</td></tr>
+<tr><td>30 m to 100 m</td><td>Average of a 0/1 layer</td><td>Gives the share of each 100 m cell that is degraded. Pixels without data are ignored, not counted as healthy.</td></tr>
+<tr><td>Class layer</td><td>Most common class</td><td>Also written (<code>lpd_class_100m.tif</code>) for reference; not used in scoring.</td></tr>
+<tr class="grp"><th colspan="3">Ephemeral water</th></tr>
+<tr><td><code>esw_band</code></td><td><code>recurrence_all</code></td><td>Water detected in any season, 2020&ndash;2025. Wetlands and large water bodies are included.</td></tr>
+<tr><td><code>esw_min_fraction</code></td><td>0.05</td><td>A 100 m cell counts as water when at least 5% of it (5 of 100 pixels at 10 m) had water detected. Filters single noisy pixels.</td></tr>
+<tr><td>Distance</td><td>Straight-line, metres</td><td>From each cell to the nearest water cell; 0 inside water.</td></tr>
+<tr class="grp"><th colspan="3">Vegetation index</th></tr>
+<tr><td>NDVI scale check</td><td>Rescale if values exceed 1.5</td><td>MODIS stores NDVI &times;10000; the layer is multiplied by 0.0001 when that is detected.</td></tr>
+<tr class="grp"><th colspan="3">Scoring</th></tr>
+<tr><td><code>p_low</code>, <code>p_high</code></td><td>0.02, 0.98</td><td>Each layer is clipped to its 2nd and 98th percentile across the study area before stretching to 0&ndash;1, so a few extreme cells do not compress the rest.</td></tr>
+<tr><td>Sparse-layer fallback</td><td>True minimum and maximum</td><td>Used when the two percentiles are the same value (layers that are mostly zero, such as building footprint).</td></tr>
+<tr><td>Weights</td><td>Rescaled to sum to 1</td><td>Within each group and across groups, so only the proportions matter. A weight of 0 removes a layer.</td></tr>
+<tr><td><code>hex_normalise</code></td><td><code>"raster"</code></td><td>Hexagon scores are the average of the already-rescaled 100 m cells inside each hexagon, so hexagon and raster results agree.</td></tr>
+<tr><td>Missing data</td><td>No score for the cell</td><td>A 100 m cell with any layer missing gets no group or suitability score. A hexagon is averaged over the cells inside it that do have data.</td></tr>
+<tr class="grp"><th colspan="3">Land-cover masks</th></tr>
+<tr><td>Source</td><td>9-class land cover 2023, 10 m</td><td>Water, Bare, Crop, Built, Grass, Shrub, Forest, Wetlands, Burned.</td></tr>
+<tr><td><code>grass_bare_shrub</code></td><td>Grass, Bare, Shrub</td><td>The mask offered in the explorer.</td></tr>
+<tr><td><code>natural</code></td><td>All classes except Water and Burned</td><td>Also written, but it keeps almost every hexagon, so the explorer does not offer it.</td></tr>
+<tr><td><code>threshold</code></td><td>0.5</td><td>A cell or hexagon is inside a mask when at least half of it is covered by the mask's classes. The explorer lets you move this cut-off for hexagons.</td></tr>
+</tbody>
+</table>
+</div>
+
+<h2>What changed from V02</h2>
+<ul>
+  <li>Six groups became three. Climate and Cost were dropped; Topography &amp; Soil and Land Surface Condition were merged into Soil and degradation.</li>
+  <li>Removed layers: clay, RPI, slope, land surface temperature, bare soil index, grass and bare fraction, the five climate layers, the three access-road layers, woody cover and micro-corridors.</li>
+  <li>New layer: land productivity dynamics (degraded share).</li>
+  <li>Ephemeral water is rebuilt from the 10 m mosaic with wetlands included; V02 used a version with large water bodies cut out.</li>
+  <li>No exclusion zones are applied. The land-cover mask is an optional filter on the results, not part of the score.</li>
+</ul>
+
+<h2>Reading the results</h2>
+<ul>
+  <li>Scores are relative to this study area. A score of 0.8 means "among the best cells here for that layer", not an absolute standard.</li>
+  <li>Rescaling is done per layer across all cells, so adding or removing area would shift the scores.</li>
+  <li>The mask and the score are independent: masking hides hexagons but does not change the score of those that remain.</li>
+</ul>
+
+<footer>Water pan siting model, prototype V03. Settings as run: <code>hex_normalise = "raster"</code>, <code>esw_min_fraction = 0.05</code>, all other settings at script defaults.</footer>
+</main>
 </body>
 </html>
