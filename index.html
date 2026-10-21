@@ -259,11 +259,11 @@ p.prose{display:block}
     <span class="mono">Remote sensing · AI · Conservation</span>
     <nav aria-label="Sections">
       <a href="#about">About</a>
-      <a href="#work">Work</a>
+      <a href="#work">Applied work</a>
       <a href="#building">Building things</a>
-      <a href="#cases">Case studies</a>
+      <a href="#cases">Research work</a>
       <a href="#experience">Experience</a>
-      <a href="#research">Research</a>
+      <a href="#research">Publications</a>
       <a href="#contact">Contact</a>
     </nav>
   </header>
@@ -301,7 +301,7 @@ p.prose{display:block}
       </div>
       <div class="facts">
         <div><b>12+</b><span>years in remote sensing and machine learning for ecology</span></div>
-        <div><b>7</b><span>field-ready tools and prototypes shown on this page</span></div>
+        <div><b>8</b><span>field-ready tools and prototypes shown on this page</span></div>
         <div><b>10</b><span>peer-reviewed articles</span></div>
         <div><b class="words">Field to office</b><span>from Portugal, the Netherlands and Germany to Namibia, Zambia, Zimbabwe and the Congo Basin</span></div>
       </div>
@@ -309,9 +309,9 @@ p.prose{display:block}
   </section>
 
   <section class="row" id="work">
-    <span class="mono">Selected work</span>
+    <span class="mono">Applied work</span>
     <div class="body">
-      <h2>Tools built for the field</h2>
+      <h2>Built for conservation</h2>
       <div class="work">
         <article class="wide">
           <div class="meta"><span class="mono">2024 to present</span><span class="mono">With African Parks</span></div>
@@ -402,7 +402,7 @@ p.prose{display:block}
   <section class="row" id="building">
     <span class="mono">Building things</span>
     <div class="body">
-      <h2>Open-source tools</h2>
+      <h2>Open tools</h2>
       <div class="work">
         <article class="wide">
           <div class="meta"><span class="mono">Deep learning · Satellite imagery</span><span class="mono">Open source · MIT licence</span></div>
@@ -418,6 +418,31 @@ p.prose{display:block}
             </figure>
           </div>
           <p class="soon"><a href="https://github.com/nunocesarsa/eoforge">View the code on GitHub</a></p>
+        </article>
+        <article class="wide">
+          <div class="meta"><span class="mono">Super-resolution · Sentinel-2</span><span class="mono">Open source · MIT licence</span></div>
+          <h3>s2sr-bench</h3>
+          <div class="wide-text">
+            <p>I built s2sr-bench, an exploratory tool for testing open super-resolution models on Sentinel-2 imagery. It runs models such as ESA OpenSR's SEN2SR-Lite and Allen AI's Satlas ESRGAN next to simple baselines on the same scene, from 10 m towards 2.5 m, and exports the results as GeoTIFFs.</p>
+            <p>There is no 2.5 m ground truth for Sentinel-2, so the tool combines what you can see (synchronised zoom, a swipe over aerial imagery, spectral profiles and residual maps) with what you can measure: reference metrics such as PSNR, SSIM, SAM and ERGAS, plus checks of radiometric consistency and sharpness on the real scene.</p>
+          </div>
+          <div class="snaps">
+            <figure class="snap" style="flex:1.56">
+              <a href="s2sr-swipe-sen2sr.png"><img src="s2sr-swipe-sen2sr.png" width="751" height="480" alt="Swipe comparison of a blocky 10 m Sentinel-2 image and a sharper SEN2SR-Lite result"></a>
+              <figcaption>Swipe view: native Sentinel-2 input (left) against SEN2SR-Lite at ×4 (right).</figcaption>
+            </figure>
+            <figure class="snap" style="flex:1.92">
+              <a href="s2sr-residuals-amsterdam.png"><img src="s2sr-residuals-amsterdam.png" width="1442" height="753" alt="Red band of Amsterdam next to a residual map in blue and red"></a>
+              <figcaption>Residual map over Amsterdam: the SEN2SR-Lite output degraded back to 10 m, minus the input (blue too dark, red too bright).</figcaption>
+            </figure>
+          </div>
+          <div class="snaps solo-wide">
+            <figure class="snap">
+              <a href="s2sr-wald-metrics.png"><img src="s2sr-wald-metrics.png" width="1456" height="273" alt="Table of Wald protocol scores for four models"></a>
+              <figcaption>Wald protocol scores for one scene. At ×4, SEN2SR-Lite edges past the bicubic baseline and the GAN falls below it; HPF injection works at ×2, so it is not directly comparable.</figcaption>
+            </figure>
+          </div>
+          <p class="soon"><a href="https://github.com/nunocesarsa/s2sr-bench">View the code on GitHub</a></p>
         </article>
         <article class="wide">
           <div class="meta"><span class="mono">Camera traps · Computer vision</span><span class="mono">Open source · MIT licence</span></div>
@@ -466,9 +491,9 @@ p.prose{display:block}
   </section>
 
   <section class="row" id="cases">
-    <span class="mono">Case studies</span>
+    <span class="mono">Research work</span>
     <div class="body">
-      <h2>Scientific work in detail</h2>
+      <h2>The research behind the tools</h2>
 
       <article class="case" id="case-automl">
         <header>
@@ -619,9 +644,9 @@ p.prose{display:block}
   </section>
 
   <section class="row" id="research">
-    <span class="mono">Research</span>
+    <span class="mono">Publications</span>
     <div class="body">
-      <h2>Research projects and publications</h2>
+      <h2>Papers and research projects</h2>
       <p class="prose">Ten peer-reviewed articles: five as lead author across two lines of research, and five as co-author. The full record, with citations, is on <a href="https://scholar.google.com/citations?user=Z1wqkxQAAAAJ">Google Scholar</a>.</p>
 
       <div class="proj">
@@ -707,7 +732,7 @@ p.prose{display:block}
   <section class="row" id="contact">
     <span class="mono">Contact</span>
     <div class="body">
-      <h2>Get in touch</h2>
+      <h2>Let's talk</h2>
       <p class="prose">Open to conversations about conservation technology, Earth observation, applied AI, collaborations and speaking.</p>
       <div class="contact">
         <span class="addr" id="email">nuno.cesar.sa@gmail.com</span>
