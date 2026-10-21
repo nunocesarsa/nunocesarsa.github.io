@@ -260,6 +260,7 @@ p.prose{display:block}
     <nav aria-label="Sections">
       <a href="#about">About</a>
       <a href="#work">Work</a>
+      <a href="#building">Building things</a>
       <a href="#cases">Case studies</a>
       <a href="#experience">Experience</a>
       <a href="#research">Research</a>
@@ -300,7 +301,7 @@ p.prose{display:block}
       </div>
       <div class="facts">
         <div><b>12+</b><span>years in remote sensing and machine learning for ecology</span></div>
-        <div><b>6</b><span>field-ready tools and prototypes shown on this page</span></div>
+        <div><b>7</b><span>field-ready tools and prototypes shown on this page</span></div>
         <div><b>10</b><span>peer-reviewed articles</span></div>
         <div><b class="words">Field to office</b><span>from Portugal, the Netherlands and Germany to Namibia, Zambia, Zimbabwe and the Congo Basin</span></div>
       </div>
@@ -369,7 +370,7 @@ p.prose{display:block}
             <img src="water-pan-suitability-map.png" width="901" height="484" alt="Hexagon map of water pan suitability scores under the balanced scenario, from red for low to green for high">
             <figcaption>Suitability under the balanced scenario, from the explorer. Green hexagons score highest.</figcaption>
           </figure>
-          <p class="soon"><a href="water-pan-explorer.html">Open the interactive explorer</a><br><a href="water-pan-report.html">Read the method report</a></p>
+          <p class="soon"><a href="water-pan-explorer.html">Open the interactive explorer</a><br><a href="water-pan-report.html">Read the method report (earlier V02 version)</a></p>
         </article>
         <article class="wide">
           <div class="meta"><span class="mono">2024 · KAZA TFCA</span><span class="mono">Survey123 · With Digifarm</span></div>
@@ -393,6 +394,30 @@ p.prose{display:block}
               <figcaption>The monitoring map: recorded fields, each with its survey answers</figcaption>
             </figure>
           </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="row" id="building">
+    <span class="mono">Building things</span>
+    <div class="body">
+      <h2>Open-source tools I build</h2>
+      <div class="work">
+        <article class="wide">
+          <div class="meta"><span class="mono">Deep learning · Satellite imagery</span><span class="mono">Open source · MIT licence</span></div>
+          <h3>EOForge</h3>
+          <div class="wide-text">
+            <p>I built EOForge, a Python tool for running deep learning models on satellite imagery. It brings ready-made models for land cover, field boundaries, floods, burn scars, clouds and object outlines (among them Dynamic World, Prithvi-EO-2.0, Fields of The World and SAM 2) together behind one command line and a local web app.</p>
+            <p>Teams can also bring their own model, or train a new one from a single configuration file, validated on spatial blocks or whole held-out images. Every run returns maps, polygons and area statistics together with a per-pixel uncertainty map, so users can see where a prediction can be trusted.</p>
+          </div>
+          <div class="snaps solo-wide">
+            <figure class="snap">
+              <a href="eoforge-landcover-example.png"><img src="eoforge-landcover-example.png" width="968" height="769" alt="Grid of satellite image chips with land-cover labels, model predictions and uncertainty maps"></a>
+              <figcaption>A model trained with EOForge on LandCoverNet chips: Sentinel-2 image, labels, prediction and uncertainty, including a chip the model never saw.</figcaption>
+            </figure>
+          </div>
+          <p class="soon"><a href="https://github.com/nunocesarsa/eoforge">View the code on GitHub</a></p>
         </article>
         <article class="wide">
           <div class="meta"><span class="mono">Camera traps · Computer vision</span><span class="mono">Open source · MIT licence</span></div>
