@@ -301,7 +301,7 @@ p.prose{display:block}
       </div>
       <div class="facts">
         <div><b>12+</b><span>years in remote sensing and machine learning for ecology</span></div>
-        <div><b>8</b><span>field-ready tools and prototypes shown on this page</span></div>
+        <div><b>9</b><span>tools and prototypes shown on this page</span></div>
         <div><b>10</b><span>peer-reviewed articles</span></div>
         <div><b class="words">Field to office</b><span>from Portugal, the Netherlands and Germany to Namibia, Zambia, Zimbabwe and the Congo Basin</span></div>
       </div>
@@ -485,6 +485,25 @@ p.prose{display:block}
             </figure>
           </div>
           <p class="soon"><a href="https://github.com/nunosa-wwf/CameraTrap_AudioLabeller">View the code on GitHub</a></p>
+        </article>
+        <article class="wide">
+          <div class="meta"><span class="mono">Bioacoustics · Sound detection</span><span class="mono">Open source · MIT licence</span></div>
+          <h3>BioTool</h3>
+          <div class="wide-text">
+            <p>I built BioTool, a small desktop tool for testing several audio detection models on the same recording. It runs BirdNET, Google's Perch and YAMNet side by side, plus acoustic indices, and shows where the models agree. Everything runs locally on an ordinary CPU, with no cloud account needed.</p>
+            <p>It also saves the embeddings each model produces, so similar sounds can be grouped, listened to and named, even when no model knows what they are. Teams can then cut short audio clips from any time and frequency box, building labelled examples to train future models.</p>
+          </div>
+          <div class="snaps">
+            <figure class="snap" style="flex:1">
+              <a href="biotool-single-file.png"><img src="biotool-single-file.png" width="1528" height="920" alt="BioTool window with a spectrogram, detection lanes for three models and a table of model agreement"></a>
+              <figcaption>One recording: spectrogram, detections from each model and where they agree.</figcaption>
+            </figure>
+            <figure class="snap" style="flex:1">
+              <a href="biotool-explore-sounds.png"><img src="biotool-explore-sounds.png" width="1529" height="915" alt="BioTool sound map with two clusters of similar sounds and a list of their windows"></a>
+              <figcaption>Explore sounds: windows that sound alike are grouped from the saved embeddings, ready to name and export.</figcaption>
+            </figure>
+          </div>
+          <p class="soon"><a href="https://github.com/nunocesarsa/BioTool">View the code on GitHub</a></p>
         </article>
       </div>
     </div>
